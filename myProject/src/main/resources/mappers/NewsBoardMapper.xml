@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juno.mappers.NewsBoardMapper">
+
+	<select id="listAll" resultType="NewsBoardVo">
+		select newsNo, nTitle, nContent, writer, ragDate, viewCnt, replyCnt, recommend, thumbnailImg
+		from news_board 
+		where newsNo > 0 
+		order by newsNo desc, ragDate desc;
+	</select>
+	
+	<select id="read" resultType="NewsBoardVo">
+		select newsNo, nTitle, nContent, writer, ragDate, viewCnt, replyCnt, recommend, thumbnailImg
+		from news_board 
+		where newsNo = #{newsNo};
+	</select>
+	
+	<insert id="create">
+		insert into news_board(nTitle, nContent, writer)
+		values(#{nTitle}, #{nContent}, #{writer});
+	</insert>
+	
+	<update id="update">
+		update news_board 
+		set nTitle = #{nTitle}, nContent = #{nContent} 
+		where newsNo = #{newsNo};
+	</update>
+	
+	<delete id="delete">
+		delete from news_board where newsNo = #{newsNo};
+	</delete>
+	
+	<!-- Search -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				and title like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and content like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				and title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				and content like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				and title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+		</if>
+	</sql>	
+	
+</mapper>
