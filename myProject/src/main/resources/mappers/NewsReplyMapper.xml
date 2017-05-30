@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juno.mappers.NewsReplyMapper">
+
+	<select id="listAll" resultType="NewsReplyVo">
+		select * from news_reply
+		where newsNo = #{newsNo}
+		order by rNo desc
+	</select>
+	
+	<insert id="create">
+		insert into news_reply(newsNo, replyText, replyer)
+		values(#{newsNo}, #{replyText}, #{replyer})
+	</insert>
+	
+	<update id="update">
+		update news_reply set replyText = #{replyText}, updatedate = now() where rNo = #{rNo}
+	</update>
+	
+	<delete id="delete">
+		delete from news_reply where rNo = #{rNo}
+	</delete>
+	
+	<!-- Paging -->
+	<select id="listPaging" resultType="NewsReplyVo">
+		select * from news_reply
+		where newsNo = #{newsNo}
+		order by rNo desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(newsNo) from news_reply where newsNo = #{newsNo}
+	</select>
+	
+</mapper>

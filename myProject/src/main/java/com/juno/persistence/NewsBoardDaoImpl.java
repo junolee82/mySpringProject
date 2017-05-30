@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.juno.domain.NewsBoardVo;
+import com.juno.domain.SearchCriteria;
 
 @Repository
 public class NewsBoardDaoImpl implements NewsBoardDao {
@@ -40,6 +41,17 @@ public class NewsBoardDaoImpl implements NewsBoardDao {
 	@Override
 	public void delete(int newsNo) throws Exception {
 		session.delete(namespace + ".delete", newsNo);
+	}
+
+	// news
+	@Override
+	public List<NewsBoardVo> listNews(SearchCriteria cri) throws Exception {
+		return session.selectList(namespace + ".listNews", cri);
+	}
+
+	@Override
+	public int listNewsCount(SearchCriteria cri) throws Exception {
+		return session.selectOne(namespace + ".listNewsCount", cri);
 	}
 
 }

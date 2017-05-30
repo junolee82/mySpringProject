@@ -3,6 +3,7 @@ package com.juno.service;
 import java.util.List;
 
 import com.juno.domain.NewsBoardVo;
+import com.juno.domain.SearchCriteria;
 
 public interface NewsBoardService {
 	public List<NewsBoardVo> listAll() throws Exception;
@@ -11,8 +12,12 @@ public interface NewsBoardService {
 
 	public void register(NewsBoardVo vo) throws Exception;
 
-	public void update(NewsBoardVo vo) throws Exception;
+	public void modify(NewsBoardVo vo) throws Exception;
 
 	public void remove(int newsNo) throws Exception;
+
+	public List<NewsBoardVo> listNewsCriteria(SearchCriteria cri) throws Exception;
+
+	public int listNewsCount(SearchCriteria cri) throws Exception;
 
 }

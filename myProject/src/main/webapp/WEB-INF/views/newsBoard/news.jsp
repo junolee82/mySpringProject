@@ -22,16 +22,40 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#newBtn").on("click", function(){
+			self.location = "registerNews";
+		});
+		
+		$("#searchBtn").on("click", function(){
+			self.location = "news"
+				+ "${pageMaker.makeQuery(1)}"
+				+ "&searchType="
+				+ $("select option:selected").val()
+				+ "&keyword=" + encodeURIComponent($("#keywordInput").val());
+		});
+	});
+</script>
+
 <style type="text/css">
-body{background: url("../../resources/img/bg.jpg");}
-.box{border: 1px solid black;}
+body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAEAEA;}
+.box{margin-bottom: 0px; border-bottom: 1px solid #EAEAEA; background: rgba(255,255,255,1);}
+.nClick:hover {}
+.nClick:hover img {opacity: 0.8;}
+.nClick:hover a {color: #980000;}
+.nClick:hover p {color: #980000;}
+a {color: black;}
+.contentBox{height: 80px; margin-bottom: 10px; overflow:hidden; text-overflow: ellipsis; text-align: left;}
+.content{font-size: 12px;}
 </style>
 
 </head>
 <body>
 
-    <div class="brand">Business Casual</div>
-    <div class="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div>
+    <div class="brand" style="margin-bottom: 20px">KoreaHipHop.com</div>
+    <!-- <div class="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div> -->
 
     <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
@@ -76,57 +100,85 @@ body{background: url("../../resources/img/bg.jpg");}
 
         <div class="row">
         
+        	<div class="box">
+        		<div class="col-lg-12">
+        			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+        			<strong> NEWS</strong>
+        		</div>
+        	</div>
+        	
+        	<c:forEach items="${list }" var="newsBoardVo">
+        	<div class="nClick">
+        	
+            <a href="/newsBoard/readNews${pageMaker.makeQuery(pageMaker.cri.page) }&newsNo=${newsBoardVo.newsNo }">
             <div class="box">
-            
-                <div class="col-lg-12">
-                    <hr>
-                    <h2 class="intro-text text-center">About
-                        <strong>business casual</strong>
-                    </h2>
-                    <hr>
-                </div>
-                
-               	
+            	
 	            <div class="col-md-6">
 	            	<img class="img-responsive img-border-left" src="../../../resources/img/wiz_khalifa.jpeg" alt="">
 	            </div>
 	            <div class="col-md-6">
-	            	<p>This is a great place to introduce your company or project and describe what you do.</p>
-	            	<p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets.</p>
-	            	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-	            </div>               
-                
-                <!-- <div class="clearfix"></div> -->
-                
-            </div>
-            
-            <div class="box">
-            
-                <div class="col-lg-12">
-                    <hr>
-                    <h2 class="intro-text text-center">About
-                        <strong>business casual</strong>
-                    </h2>
-                    <hr>
-                </div>
-                
-               	
-	            <div class="col-md-6">
-	            	<img class="img-responsive img-border-left" src="../../../resources/img/tinashe.jpg" alt="">
+	            	<input type="hidden" value="${newsBoardVo.newsNo }"/> 
+                    <p><strong>${newsBoardVo.nTitle }</strong></p>
+                    <div class="contentBox">
+                    	<p class="content">${newsBoardVo.nContent }</p>
+                    </div>	            	
+	            	
+	            	조회수 ${newsBoardVo.viewCnt } |
+	            	댓글 ${newsBoardVo.replyCnt } |
+	            	추천 ${newsBoardVo.recommend } |
+	            	작성자 ${newsBoardVo.writer } |
+	            	작성일  <fmt:formatDate value="${newsBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
 	            </div>
-	            <div class="col-md-6">
-	            	<p>This is a great place to introduce your company or project and describe what you do.</p>
-	            	<p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets.</p>
-	            	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-	            </div>               
-                
+	            	
+			</div>
+            </a>    
                 <!-- <div class="clearfix"></div> -->
                 
             </div>
+            </c:forEach>
+
+				<!-- Search -->
+				<div class="text-left" style="margin-bottom: 0px; margin-top: 24px;">
+					<div class="btn-group form-inline">
+					<select name="searchType" id="searchType" class="form-control" style="width: 100px">
+						<option value="n" <c:out value="${cri.searchType == null?'selected' : ''}" />> ------------------------------------- </option>						
+						<option value="t" <c:out value="${cri.searchType eq 't'?'selected' : ''}" />> Title </option>
+						<option value="c" <c:out value="${cri.searchType eq 'c'?'selected' : ''}" />> Content </option>
+						<option value="w" <c:out value="${cri.searchType eq 'w'?'selected' : ''}" />> Writer </option>
+						<option value="tc" <c:out value="${cri.searchType eq 'tc'?'selected' : ''}" />> Title OR Content </option>
+						<option value="cw" <c:out value="${cri.searchType eq 'cw'?'selected' : ''}" />> Content OR Writer </option>
+						<option value="tcw" <c:out value="${cri.searchType eq 'tcw'?'selected' : ''}" />> Title OR Content OR Writer </option>
+					</select>
+					
+					<input type="text" class="form-control" name="keyword" id="keywordInput" value="${cri.keyword }" />
+					
+					</div>
+					<button id="searchBtn" class="btn btn-primary">Search</button>
+					<button id="newBtn" class="btn btn-primary">New Board</button>
+				</div>            
+            
+				<!-- pagination -->
+				<div class="text-center">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev }">
+							<li><a href="news${pageMaker.makeQuery(pageMaker.startPage - 1) }">&laquo;</a></li>
+						</c:if>
+						
+						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+							<li <c:out value="${pageMaker.cri.page == idx?'class = active' : '' }"/>>
+								<a href="news${pageMaker.makeQuery(idx) }">${idx }</a>
+							</li>
+						</c:forEach>
+						
+						<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+							<li><a href="news${pageMaker.makeQuery(pageMaker.endPage + 1) }">&raquo;</a></li>
+						</c:if>
+					</ul>
+				</div>
             
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
@@ -155,7 +207,7 @@ body{background: url("../../resources/img/bg.jpg");}
                 </div>
                 <div class="clearfix"></div>
             </div>
-        </div>
+        </div> -->
 
     </div>
     <!-- /.container -->

@@ -32,7 +32,7 @@
 		delete from news_board where newsNo = #{newsNo};
 	</delete>
 	
-	<!-- Search -->
+	<!-- Search & Paging -->
 	<sql id="search">
 		<if test="searchType != null">
 			<if test="searchType == 't'.toString()">
@@ -54,6 +54,23 @@
 				and title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
 			</if>
 		</if>
-	</sql>	
+	</sql>
+	
+	<select id="listNews" resultType="NewsBoardVo">
+		select * from news_board
+		where newsNo > 0
+		<include refid="search" />
+		order by newsNo desc 
+		limit #{pageStart}, #{perPageNum};
+	</select>
+	
+	<select id="listNewsCount" resultType="int">
+		select count(newsNo)
+		from news_board
+		where newsNo > 0
+		<include refid="search" />;
+	</select>
+	
+	<!-- Transaction -->
 	
 </mapper>

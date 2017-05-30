@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.juno.domain.NewsBoardVo;
+import com.juno.domain.SearchCriteria;
 import com.juno.persistence.NewsBoardDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,6 +53,12 @@ public class NewsBoardDaoTest {
 	@Test
 	public void deleteTest() throws Exception {
 		dao.delete(1);
+	}
+	
+	@Test
+	public void listNewsTest() throws Exception {
+		SearchCriteria cri = new SearchCriteria();
+		logger.info(dao.listNews(cri).toString());
 	}
 	
 }
