@@ -8,11 +8,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class PageMaker {
 	private int totalCount;
-	private int startPage;
-	private int endPage;
-	private boolean prev;
-	private boolean next;
-	private int displayPageNum = 10;
+	private int startPage; //
+	private int endPage; //
+	private boolean prev; //
+	private boolean next; //
+	private int displayPageNum = 10; //
 	private Criteria cri;
 
 	public int getTotalCount() {

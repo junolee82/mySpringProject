@@ -17,4 +17,8 @@ public interface NewsReplyDao {
 	public List<NewsReplyVo> listPaging(int newsNo, Criteria cri) throws Exception;
 	
 	public int count(int newsNo) throws Exception;
+	
+	// ---------- Transaction ----------//
+	public int getNewsNo(int newsNo) throws Exception;
+
 }

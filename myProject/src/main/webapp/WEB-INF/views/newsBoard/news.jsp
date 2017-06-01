@@ -49,6 +49,8 @@ body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAE
 a {color: black;}
 .contentBox{height: 80px; margin-bottom: 10px; overflow:hidden; text-overflow: ellipsis; text-align: left;}
 .content{font-size: 12px;}
+/* font */
+p { font-size: 1em;}
 </style>
 
 </head>
@@ -118,7 +120,7 @@ a {color: black;}
 	            </div>
 	            <div class="col-md-6">
 	            	<input type="hidden" value="${newsBoardVo.newsNo }"/> 
-                    <p><strong>${newsBoardVo.nTitle }</strong></p>
+                    <p style="font-size: 1.25em;"><strong>${newsBoardVo.nTitle }</strong></p>
                     <div class="contentBox">
                     	<p class="content">${newsBoardVo.nContent }</p>
                     </div>	            	

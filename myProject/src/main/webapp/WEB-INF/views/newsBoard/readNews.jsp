@@ -23,7 +23,6 @@
 
 <!-- Custom CSS -->
 <link href="../../resources/bootstrap/css/business-casual.css" rel="stylesheet">
-<link href="../../resources/bootstrap/css/bootstrap-social.css" rel="stylesheet">
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -33,21 +32,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <script type="text/x-handlebars-template" id="template">
 	{{#each.}}
-		<div class="replyLi" data-rno={{rno}} style="margin: 20px 0px">
-			<p>{{prettifyDate regdate}} {{rno}}-{{replyer}}</p>
-			<p class="timeline-body">{{replytext}}</p>
-			<a class="btn btn-default btn-xs" data-toggle="modal" data-target="#modifyModal">modify</a>
+		<div class="box replyLi" data-rNo={{rNo}} style="margin: 0px 20px 20px 20px;">
+			
+			<div class="col-md-12">
+				<p>
+				{{replyer}}
+				{{prettifyDate regdate}}
+				</p>
+			</div>
+				
+			<div class="col-md-12">
+				<p>
+				<span class="timeline-body">{{replyText}}</span>
+				<a class="btn btn-default btn-xs" data-toggle="modal" data-target="#modifyModal">댓글수정</a>
+				</p>
+			</div>
+				
 		</div>
 	{{/each}}
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="/resources/js/reply.js"></script>
 <script type="text/javascript">
+
+	var newsNo = ${readNews.newsNo};
+
 	$(function(){
+		
 		$("#listNews").click(function(){
 			history.go(-1);
 			/* $("#formObj").attr("method", "get");
-			$("#formObj").attr("action", "/sBoard/list");
+			$("#formObj").attr("action", "/newsBoard/news");
 			$("#formObj").submit(); */
 		});
 		
@@ -62,12 +78,126 @@
 			$("#formObj").submit();
 		});
 		
-	});
+		/* LIST REPLY */
+		getPage("/replies/" + newsNo + "/1");
+		
+		/* 댓글 페이징 이벤트 */
+		$(".pagination").on("click", "li a", function(event) {
+			event.preventDefault();
+			replyPage = $(this).attr("href");
+			getPage("/replies/" + newsNo + "/" + replyPage);
+		});
+		
+		/* 댓글 등록 */
+		$("#replyAddBtn").on("click", function(){
+			var replyerObj = $("#newReplyWriter");
+			var replyTextObj = $("#newReplyText");
+			var replyer = replyerObj.val();
+			var replyText = replyTextObj.val();
+			
+			$.ajax({
+				type : "post",
+				url : "/replies",
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "POST"
+				},
+				dataType : "text",
+				data : JSON.stringify({
+					newsNo : newsNo,
+					replyer : replyer,
+					replyText : replyText
+				}),
+				success : function(result) {
+					if(result == "SUCCESS") {
+						alert("등록 되었습니다.");
+						replyPage = 1;
+						getPage("/replies/" + newsNo + "/" + replyPage);
+						replyerObj.val("");
+						replyTextObj.val("");
+					}
+				}
+			});
+		});
+		
+		/* modal setting */
+		$(document).on("click", ".replyLi", function(){
+			var reply = $(this);
+			// alert(reply.find(".timeline-body").text());
+			$("#replyText").val(reply.find(".timeline-body").text());
+			$(".rNo").html(reply.attr("data-rNo"));
+		});
+		
+		/* 댓글 수정 */
+		$("#replyModBtn").on("click", function(){
+			var rNo = $(".rNo").html();
+			var replyText = $("#replyText").val();
+			
+			$.ajax({
+				type : "put",
+				url : "/replies/" + rNo,
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "PUT"
+				},
+				data : JSON.stringify({
+					replyText : replyText
+				}),
+				dataType : "text",
+				success : function(result) {
+					console.log("result: " + result);
+					if(result == "SUCCESS") {
+						alert("수정 되었습니다");
+						getPage("/replies/" + newsNo + "/" + replyPage);
+						$('#modifyModal').modal("hide");
+					}
+				}
+			});
+		});
+		
+		/* 댓글 삭제 */
+		$("#replyDelBtn").on("click", function(){
+			var rNo = $(".rNo").html();
+			var replyText = $("#replyText").val();
+			
+			$.ajax({
+				type : "delete",
+				url : "/replies/" + rNo,
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "DELETE"
+				},
+				dataType : "text",
+				success : function(result) {
+					console.log("result: " + result);
+					if(result == "SUCCESS") {
+						alert("삭제 되었습니다.");
+						getPage("/replies/" + newsNo + "/" + replyPage);
+						$('#modifyModal').modal("hide");
+					}
+				}
+			});
+		});
+		
+		
+		
+	}); //end ready
+	
+	
+	
 </script>
 
 <style type="text/css">
 body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAEAEA;}
 .box{margin-bottom: 0px; border-bottom: 1px solid #EAEAEA; background: rgba(255,255,255,1);}
+textarea.form-control{ border: none; box-shadow: none; padding: 15px 20px; border-bottom: 1px solid #EAEAEA;}
+textarea.form-control:focus{outline: none; border-color: none; box-shadow: none;}
+input[type=text] { border: none; box-shadow: none; padding: 15px 20px; margin: 10px 0px;}
+input[type=text].form-control:focus{outline: none; border-color: none; box-shadow: none;}
+button[type=submit] {border: none; width: 100%; height: 60px; background-color: #353535; color: white;}
+/* font */
+p { font-size: 1em;}
+p img {}
 </style>
 </head>
 <body>
@@ -155,7 +285,7 @@ body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAE
 
 	        <div class="box">
 		            
-		    	<div class="col-md-12">
+		    	<div class="col-md-12" style="padding: 60px">
 		    		<h4>${readNews.nTitle }</h4><br>
 		    		${fn:replace(readNews.nContent, cn, br)}
 		    		<br>
@@ -167,26 +297,52 @@ body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAE
 	        
 	        <!-- button -->
 	        <div class="box" style="margin-bottom: 20px;">
-		            
-		    	<button type="button" class="btn btn-default" id="listNews"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 목록</button>
-		    	
-		    	<div class="btn-group" role="group" aria-label="...">
-				  <input type="button" class="btn btn-default" value="Twitter" />
-				  <input type="button" class="btn btn-default" value="Facebook" />
-				</div>
 				
-				<button type="button" class="btn btn-default" id="modify">수정</button>
-				<button type="button" class="btn btn-default" id="remove">삭제</button>
-		    		                
+				<div class="col-md-12">
+				
+			    	<button type="button" class="btn btn-default" id="listNews"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 목록</button>
+			    	
+			    	<div class="btn-group" role="group" aria-label="...">
+					  <input type="button" class="btn btn-default" value="Twitter" />
+					  <input type="button" class="btn btn-default" value="Facebook" />
+					</div>
+					
+					<button type="button" class="btn btn-default" id="modify">수정</button>
+					<button type="button" class="btn btn-default" id="remove">삭제</button>
+				
+		    	</div>
+		    	
 	        </div>
-
-    	</div>
-    	
-    	    	
+	        
+	        
+			
+			<!-- reply -->
+			
+			<div class="box" style="margin: 0px 20px 20px 20px; padding: 0px;" >
+				<textarea class="form-control" rows="4" style="resize:none" placeholder="COMMENT" id="newReplyText"></textarea>
+				<input type="text" class="form-control" placeholder="USER ID" id="newReplyWriter"/>
+				
+				<button type="submit" id="replyAddBtn">Post Comment</button>
+			</div>
+			
+			<div id="repliesDiv">
+			
+			</div>
+			
+			<div class="text-center">
+				<ul id="pagination" class="pagination pagination-sm no-margin">
+					
+				</ul>
+			</div>			
+			
+    	</div> <!-- end row -->     	    	
     	
     </div>
+    
     <!-- /.container -->
-
+	
+	
+	
     <footer>
         <div class="container">
             <div class="row">
@@ -202,6 +358,30 @@ body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAE
 
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    
+
+	<!-- Modal -->
+	<div id="modifyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modifyModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">COMMENT-<span class="rNo"></span></h4>
+				</div>
+				
+				<div class="modal-body" data-rNo>
+					<p><input type="text" id="replyText" class="form-control" /></p>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" id="replyModBtn" >Modify</button>
+					<button type="button" class="btn btn-info" id="replyDelBtn" >Delete</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+   
 </body>
 </html>

@@ -20,4 +20,11 @@ public interface NewsBoardDao {
 
 	public int listNewsCount(SearchCriteria cri) throws Exception;
 
+	// ---------- Transaction ----------//
+	// replyCnt
+	public void updateReplyCnt(int newsNo, int amount) throws Exception;
+
+	// viewCnt
+	public void updateViewCnt(int newsNo) throws Exception;
+
 }

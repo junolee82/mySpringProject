@@ -23,7 +23,72 @@
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
+
+	// ckEditor setting
+	var ckeditor_config = {
+	     resize_enabled : false, // 에디터 크기를 조절하지 않음
+	     enterMode : CKEDITOR.ENTER_BR , // 엔터키를 <br> 로 적용함.
+	     shiftEnterMode : CKEDITOR.ENTER_P ,  // 쉬프트 +  엔터를 <p> 로 적용함.
+	     toolbarCanCollapse : true , 
+	     removePlugins : "elementspath", // DOM 출력하지 않음
+	     filebrowserUploadUrl: '/file_upload', // 파일 업로드를 처리 할 경로 설정.
+	
+	     // 에디터에 사용할 기능들 정의
+	     toolbar : [
+	                
+	       [ 'Source', '-' , 'NewPage', 'Preview' ],
+	       [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
+	       [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+	       [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
+	       '/',
+	       [ 'Styles', 'Format', 'Font', 'FontSize' ],
+	       [ 'TextColor', 'BGColor' ],
+	       [ 'Image', 'Flash', 'Table' , 'SpecialChar' , 'Link', 'Unlink']
+	
+	     ]
+	
+	   };
+	
+	var editor = null;
+
+	jQuery(function() {
+		// ckEditor 적용
+	  editor = CKEDITOR.replace( "nContent" , ckeditor_config );
+	});
+
+	// 입력 항목의 체크 함수
+	function filter(options) {
+	    var is = true;
+	
+	    jQuery(options).each(function() {
+	        var item = this;
+	
+	        switch (item.filter) {
+	            case 'empty' :
+	                var val = jQuery(item.target).val();
+	                if (val == '') {
+	                    alert(item.title + '을(를) 입력하세요.');
+	                    jQuery(item.target).focus();
+	                    is = false;
+	                }
+	            break;
+	
+	            case 'number' :
+	                var val = jQuery(item.target).val();
+	                var num_regx = /[^0-9]/;
+	                if (num_regx.test(val)) {
+	                alert(item.title + '을(를) 숫자만 입력하세요.');
+	                jQuery(item.target).focus();
+	                    is = false;
+	                }
+	            break;
+	
+	        }
+	    });
+	    return is;
+	}
 
 </script>
 
@@ -31,6 +96,7 @@
 body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAEAEA;}
 .box{border-bottom: 1px solid #EAEAEA;}
 input[type=submit] {border: none; width: 460px; height: 60px; background-color: #353535; color: white;}
+#cke_1_contents {height: 600px !important;}
 </style>
 
 </head>
@@ -105,7 +171,7 @@ input[type=submit] {border: none; width: 460px; height: 60px; background-color: 
   						<input type="text" class="form-control" placeholder="작성자" aria-describedby="basic-addon1" name="writer">
 					</div>
 					
-					<textarea class="form-control" rows="40" placeholder="내용" name="nContent"></textarea>
+					<textarea class="form-control" rows="40" placeholder="내용" name="nContent" id="nContent"></textarea>
 										
 					<input type="submit" value="등록" class="text-center" />
 					

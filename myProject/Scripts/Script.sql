@@ -56,3 +56,26 @@ delete from news_reply where rNo = 1;
 select * from news_reply where newsNo = 1 order by rNo desc limit 0, 10;
 
 select count(newsNo) from news_reply where newsNo = 1;
+
+/* Transaction */
+update news_board set replyCnt = replyCnt + 1 where newsNo = 1;
+
+select newsNo from news_reply where rNo = 2;
+
+update news_board set replyCnt = (select count(newsNo) from news_reply where newsNo = news_board.newsNo) where newsNo > 0;
+
+update news_board set viewCnt = viewCnt + 1 where newsNo = 1;
+
+/* ATTACH */
+create table news_attach(
+	fullName VARCHAR(150) not null,
+	newsNo INT not null,
+	regDate TIMESTAMP default now(),
+	primary key(fullName));
+	
+alter table news_attach add constraint fk_board_attach
+foreign key(newsNo) references news_board(newsNo);
+
+select * from news_attach;
+
+insert into news_attach(fullName, newsNo) values('WIZ', last_insert_id());

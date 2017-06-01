@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.juno.domain.NewsBoardVo;
 import com.juno.domain.SearchCriteria;
@@ -21,8 +23,10 @@ public class NewsBoardServiceImpl implements NewsBoardService {
 		return dao.listAll();
 	}
 
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public NewsBoardVo read(int newsNo) throws Exception {
+		dao.updateViewCnt(newsNo);
 		return dao.read(newsNo);
 	}
 

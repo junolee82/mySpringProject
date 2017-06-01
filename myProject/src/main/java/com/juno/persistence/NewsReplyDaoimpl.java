@@ -53,4 +53,9 @@ public class NewsReplyDaoimpl implements NewsReplyDao {
 		return session.selectOne(namespace + ".count", newsNo);
 	}
 
+	@Override
+	public int getNewsNo(int newsNo) throws Exception {
+		return session.selectOne(namespace + ".getNewsNo", newsNo);
+	}
+
 }

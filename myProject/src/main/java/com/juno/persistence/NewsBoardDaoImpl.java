@@ -1,6 +1,8 @@
 package com.juno.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -52,6 +54,21 @@ public class NewsBoardDaoImpl implements NewsBoardDao {
 	@Override
 	public int listNewsCount(SearchCriteria cri) throws Exception {
 		return session.selectOne(namespace + ".listNewsCount", cri);
+	}
+
+	@Override
+	public void updateReplyCnt(int newsNo, int amount) throws Exception {
+		Map<String, Object> paramMap = new HashMap<>();
+
+		paramMap.put("newsNo", newsNo);
+		paramMap.put("amount", amount);
+
+		session.update(namespace + ".updateReplyCnt", paramMap);
+	}
+
+	@Override
+	public void updateViewCnt(int newsNo) throws Exception {
+		session.update(namespace + ".updateViewCnt", newsNo);
 	}
 
 }

@@ -35,4 +35,9 @@
 		select count(newsNo) from news_reply where newsNo = #{newsNo}
 	</select>
 	
+	<!-- Transaction -->
+	<select id="getNewsNo" resultType="int">
+		select newsNo from news_reply where rNo = #{rNo};
+	</select>	
+	
 </mapper>
