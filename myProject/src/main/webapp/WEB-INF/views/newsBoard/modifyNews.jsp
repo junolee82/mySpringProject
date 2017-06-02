@@ -226,6 +226,7 @@ p { font-size: 1em;}
 		    		<br>
 		    		<br>		    		
 		    	</div>
+		    	
 		    	<div class="col-md-12">
 		    		<form action="uploadForm" method="post" id="" enctype="multipart/form-data">
 		    			<div class="filebox preview-image"> 

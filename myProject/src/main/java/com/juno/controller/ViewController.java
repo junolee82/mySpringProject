@@ -21,7 +21,7 @@ public class ViewController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ViewController.class);
 
-	@RequestMapping(value = "/file_upload", method = RequestMethod.POST)
+/*	@RequestMapping(value = "/file_upload", method = RequestMethod.POST)
 	public String procFileUpload(FileBean fileBean, HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		
@@ -50,5 +50,5 @@ public class ViewController {
 		model.addAttribute("CKEditorFuncNum", CKEditorFuncNum);
 		
 		return "fileupload";
-	}
+	}*/
 }

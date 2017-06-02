@@ -22,6 +22,26 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
+<!-- template -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<script type="text/x-handlebars-template" id="template">
+	<div class="thumbnail text-center">
+
+		<img src="{{imgsrc}}" alt="Attachment" />
+
+		<div class="caption">
+			<p>
+				<a href="{{getLink}}">{{fileName}}</a>
+								
+				<a href="{{fullName}}" class="btn btn-default btn-xs pull-right delbtn">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</a>
+								
+			</p>
+		</div>
+	</div>
+</script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
@@ -89,7 +109,78 @@
 	    });
 	    return is;
 	}
+	
+	$(document).ready(function(){ 
+		var fileTarget = $('.filebox .upload-hidden');
+		
+		fileTarget.on('change', function(){ // 값이 변경되면 
+			
+		if(window.FileReader){ // modern browser 
+			var filename = $(this)[0].files[0].name; 
+		} else { // old IE 
+			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
+		} // 추출한 파일명 삽입 
+			$(this).siblings('.upload-name').val(filename); 
+		});
+		
+		//preview image 
+	    var imgTarget = $('.preview-image .upload-hidden');
 
+	    imgTarget.on('change', function(){
+	        var parent = $(this).parent();
+	        parent.children('.upload-display').remove();
+
+	        if(window.FileReader){
+	            //image 파일만
+	            if (!$(this)[0].files[0].type.match(/image\//)) return;
+	            
+	            var reader = new FileReader();
+	            reader.onload = function(e){
+	                var src = e.target.result;
+	                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+	            }
+	            reader.readAsDataURL($(this)[0].files[0]);
+	        }
+
+	        else {
+	            $(this)[0].select();
+	            $(this)[0].blur();
+	            var imgSrc = document.selection.createRange().text;
+	            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+
+	            var img = $(this).siblings('.upload-display').find('img');
+	            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
+	        }
+	    });
+		
+	});
+	
+ 	/* $(function(){
+ 		$("#registerTitleImg").on("click", function(event){
+ 			var files = event.originalEvent.dataTransfer.files;
+ 			
+ 			var file = files[0];
+ 			
+ 			var fomrData = new FromData();
+ 			
+ 			formData.append("file", file);
+ 			
+ 			$.ajax({
+ 				url : "/uploadAjax",
+ 				data : formData,
+ 				dataType : "text",
+ 				processData : false,
+ 				contentType : false,
+ 				type : "POST",
+ 				success : function(data) {
+ 					var fileInfo = getFileInfo(data);
+ 					var html = template(fileInfo);
+ 					$(".uploadedTitleImg").html(html);
+ 				}
+ 			});
+ 		});
+	}); */
+	
 </script>
 
 <style type="text/css">
@@ -97,6 +188,17 @@ body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAE
 .box{border-bottom: 1px solid #EAEAEA;}
 input[type=submit] {border: none; width: 460px; height: 60px; background-color: #353535; color: white;}
 #cke_1_contents {height: 600px !important;}
+
+.filebox input[type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; } 
+.filebox label { display: inline-block; padding: .5em .75em; margin: 0px; color: #999; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #fdfdfd; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; }
+.filebox .upload-name { width: 200px; display: inline-block; padding: .5em .75em; font-size: inherit; font-family: inherit; line-height: normal; vertical-align: middle; background-color: #f5f5f5; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+
+/* imaged preview */ 
+.filebox .upload-display {margin-bottom: 5px; } 
+@media(min-width: 768px) { .filebox .upload-display { display: inline-block; margin-right: 5px; margin-bottom: 0; } } 
+.filebox .upload-thumb-wrap {display: inline-block; width: 54px; padding: 2px; vertical-align: middle; border: 1px solid #ddd; border-radius: 5px; background-color: #fff; } 
+.filebox .upload-display img {display: block; max-width: 100%; width: 100% \9; height: auto; }
+
 </style>
 
 </head>
@@ -159,8 +261,30 @@ input[type=submit] {border: none; width: 460px; height: 60px; background-color: 
      	
             <div class="box">
             
-            <form action="registerNews" method="post" id="registerForm">
-	            <div class="col-md-12 text-center">
+            <form action="/uploadForm" method="post" id="formObj" enctype="multipart/form-data">
+            
+			   	<div class="col-md-12">
+			    		
+			   		<div class="filebox preview-image">
+			   			<input class="upload-name" value="TITLE : width 1020xp 고정" disabled="disabled" name="files[1]">
+			    				
+			   			<label for="input-file">이미지 선택</label>
+			   			<input type="file" id="input-file" class="upload-hidden">
+			    			
+			   			<button type="button" class="upload-name" id="registerTitleImg">등록</button>
+			   		</div>
+			    		
+			   	</div>	
+			   	
+			</form>    
+				            
+            <form action="registerNews" method="post" id="registerForm" enctype="multipart/form-data">
+            
+            	<div class="col-md-12 uploadedTitleImg">
+
+            	</div>
+            
+	            <div class="col-md-12">
 					<div class="input-group">
   						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></span>
   						<input type="text" class="form-control" placeholder="제목" aria-describedby="basic-addon1" name="nTitle">
@@ -170,17 +294,23 @@ input[type=submit] {border: none; width: 460px; height: 60px; background-color: 
   						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
   						<input type="text" class="form-control" placeholder="작성자" aria-describedby="basic-addon1" name="writer">
 					</div>
-					
+				</div>				
+				
+				<div class="col-md-12">	
+				
 					<textarea class="form-control" rows="40" placeholder="내용" name="nContent" id="nContent"></textarea>
-										
+					
+				</div>
+				
+				<div class="col-md-12 text-center">
+			    											
 					<input type="submit" value="등록" class="text-center" />
 					
-	            </div>            
+	            </div>
 	            
 	        </form>
 	                            
             </div>
-
        
         </div>
 

@@ -73,7 +73,7 @@
 			$("#formObj").submit();
 		});
 		
-		$("remove").click(function(){
+		$("#remove").click(function(){
 			$("#formObj").attr("action", "/newsBoard/removeNews");
 			$("#formObj").submit();
 		});

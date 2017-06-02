@@ -70,5 +70,11 @@ public class NewsBoardDaoImpl implements NewsBoardDao {
 	public void updateViewCnt(int newsNo) throws Exception {
 		session.update(namespace + ".updateViewCnt", newsNo);
 	}
+	
+	// addAttach
+	@Override
+	public void addAttach(String fullName) throws Exception {
+		session.insert(namespace + ".addAttach", fullName);
+	}
 
 }

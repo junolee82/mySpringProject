@@ -80,4 +80,9 @@
 		update news_board set viewCnt = viewCnt + 1 where newsNo = #{newsNo};
 	</update>
 	
+	<!-- UPLOAD -->
+	<insert id="addAttach">
+		insert into news_attach(fullName, newsNo) values(#{fullName}, LAST_INSERT_ID())
+	</insert>
+	
 </mapper>

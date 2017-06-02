@@ -78,4 +78,7 @@ foreign key(newsNo) references news_board(newsNo);
 
 select * from news_attach;
 
-insert into news_attach(fullName, newsNo) values('WIZ', last_insert_id());
+insert into news_attach(fullName, newsNo) values('WIZ', LAST_INSERT_ID());
+
+insert into news_attach(fullName, newsNo) values(#{fullName}, LAST_INSERT_ID())
+

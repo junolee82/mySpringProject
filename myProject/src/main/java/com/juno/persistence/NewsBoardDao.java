@@ -26,5 +26,8 @@ public interface NewsBoardDao {
 
 	// viewCnt
 	public void updateViewCnt(int newsNo) throws Exception;
+	
+	// upload
+	public void addAttach(String fullName) throws Exception;
 
 }

@@ -29,10 +29,22 @@ public class NewsBoardServiceImpl implements NewsBoardService {
 		dao.updateViewCnt(newsNo);
 		return dao.read(newsNo);
 	}
-
+	
+	@Transactional
 	@Override
 	public void register(NewsBoardVo vo) throws Exception {
 		dao.create(vo);
+		
+		String[] files = vo.getFiles();
+		
+		if(files == null) {
+			return;
+		}
+		
+		for(String fileName : files) {
+			dao.addAttach(fileName);
+		}
+		
 	}
 
 	@Override
