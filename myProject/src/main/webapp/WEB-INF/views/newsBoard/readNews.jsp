@@ -188,7 +188,7 @@
 </script>
 
 <style type="text/css">
-body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAEAEA;}
+body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #F1F1F1;}
 .box{margin-bottom: 0px; border-bottom: 1px solid #EAEAEA; background: rgba(255,255,255,1);}
 textarea.form-control{ border: none; box-shadow: none; padding: 15px 20px; border-bottom: 1px solid #EAEAEA;}
 textarea.form-control:focus{outline: none; border-color: none; box-shadow: none;}

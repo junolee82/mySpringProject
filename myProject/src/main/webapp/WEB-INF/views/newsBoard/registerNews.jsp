@@ -44,6 +44,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/resources/js/upload.js"></script>
 <script type="text/javascript">
 
 	// ckEditor setting
@@ -153,38 +154,79 @@
 	        }
 	    });
 		
-	});
+	});	
+
+	function fileUpload(fis) {
+ 		var files = fis.value;
+ 	 	alert("파일네임: "+ fis.value.substring(files.lastIndexOf("\\")+1)); 	
+	}
 	
- 	/* $(function(){
- 		$("#registerTitleImg").on("click", function(event){
- 			var files = event.originalEvent.dataTransfer.files;
- 			
- 			var file = files[0];
- 			
- 			var fomrData = new FromData();
- 			
- 			formData.append("file", file);
- 			
- 			$.ajax({
- 				url : "/uploadAjax",
- 				data : formData,
- 				dataType : "text",
- 				processData : false,
- 				contentType : false,
- 				type : "POST",
- 				success : function(data) {
- 					var fileInfo = getFileInfo(data);
- 					var html = template(fileInfo);
- 					$(".uploadedTitleImg").html(html);
- 				}
- 			});
- 		});
-	}); */
-	
+	$(function(){
+		var template = Handlebars.compile($("#template").html());		
+		
+		$(".fileDrop").on("dragenter dragover", function(event){
+			event.preventDefault();
+		});
+		
+		$(".fileDrop").on("drop", function(event){
+			event.preventDefault();
+			
+			var files = event.originalEvent.dataTransfer.files;
+			var file = files[0];
+			var formData = new FormData();
+			formData.append("file", file);
+			
+			$.ajax({
+				url : "/uploadAjax",
+				data : formData,
+				dataType : "text",
+				processData : false,
+				contentType : false,
+				type : "POST",
+				success : function(data) {
+					var fileInfo = getFileInfo(data);
+					var html = template(fileInfo);
+					$(".uploadedTitleImg").append(html);
+				}
+			});
+		});
+		
+		$("#registerForm").submit(function(event){
+			event.preventDefault();
+			
+			var that = $(this);
+			var str = "";
+			
+			$(".uploadedTitleImg .delbtn").each(function(index){
+				str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "'>";
+			});
+			that.append(str);
+			that.get(0).submit();
+		});
+		
+		// Delete		
+		$(".uploadedTitleImg").on("click", "delbtn", function(event){
+			var that = $(this);
+			$.ajax({
+				url : "deleteFile",
+				type : "post",
+				data : {fileName:$(this).attr("data-src")},
+				dataType : "text",
+				success : function(result) {
+					if(result == "deleted") {
+						alert("deleted");
+						that.parent("div").remove();
+						//$(".formAjax").html("<div class='fileDrop'></div>");
+					}
+				}
+			});
+		});
+		
+	});	
 </script>
 
 <style type="text/css">
-body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAEAEA;}
+body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #F1F1F1;}
 .box{border-bottom: 1px solid #EAEAEA;}
 input[type=submit] {border: none; width: 460px; height: 60px; background-color: #353535; color: white;}
 #cke_1_contents {height: 600px !important;}
@@ -199,6 +241,8 @@ input[type=submit] {border: none; width: 460px; height: 60px; background-color: 
 .filebox .upload-thumb-wrap {display: inline-block; width: 54px; padding: 2px; vertical-align: middle; border: 1px solid #ddd; border-radius: 5px; background-color: #fff; } 
 .filebox .upload-display img {display: block; max-width: 100%; width: 100% \9; height: auto; }
 
+/* FileDrop */
+.fileDrop { width: 100%; height: 100px; border: 1px dotted gray; margin: auto; margin-bottom: 20px; text-align: center}
 </style>
 
 </head>
@@ -261,22 +305,26 @@ input[type=submit] {border: none; width: 460px; height: 60px; background-color: 
      	
             <div class="box">
             
-            <form action="/uploadForm" method="post" id="formObj" enctype="multipart/form-data">
+            <!-- <form action="/uploadForm" method="post" id="formObj" enctype="multipart/form-data"> -->
             
 			   	<div class="col-md-12">
 			    		
-			   		<div class="filebox preview-image">
-			   			<input class="upload-name" value="TITLE : width 1020xp 고정" disabled="disabled" name="files[1]">
-			    				
+			   		<!-- <div class="filebox preview-image">
+			   			<input class="upload-name" value="TITLE : width 1020xp 고정" disabled="disabled">			    				
 			   			<label for="input-file">이미지 선택</label>
-			   			<input type="file" id="input-file" class="upload-hidden">
+			   			
+			   			<input type="file" id="input-file" class="upload-hidden" name="files" onchange="fileUpload(this)">
 			    			
-			   			<button type="button" class="upload-name" id="registerTitleImg">등록</button>
-			   		</div>
+			   			<button type="button" class="upload-name" id="registerTitleImg" >등록</button>
+			   		</div> -->
+			    	
+			    	<div class="fileDrop">
+			    	
+			    		<p>타이틀 이미지</p>
 			    		
-			   	</div>	
-			   	
-			</form>    
+			    	</div>
+			    		
+			   	</div>	    
 				            
             <form action="registerNews" method="post" id="registerForm" enctype="multipart/form-data">
             
