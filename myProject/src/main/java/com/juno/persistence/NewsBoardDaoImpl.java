@@ -77,4 +77,9 @@ public class NewsBoardDaoImpl implements NewsBoardDao {
 		session.insert(namespace + ".addAttach", fullName);
 	}
 
+	@Override
+	public List<String> getAttach(int newsNo) throws Exception {
+		return session.selectList(namespace + ".getAttach", newsNo);
+	}
+
 }

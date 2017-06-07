@@ -85,4 +85,8 @@
 		insert into news_attach(fullName, newsNo) values(#{fullName}, LAST_INSERT_ID())
 	</insert>
 	
+	<select id="getAttach" resultType="string">
+		select fullName from news_attach where newsNo = #{newsNo} order by regDate
+	</select>
+	
 </mapper>

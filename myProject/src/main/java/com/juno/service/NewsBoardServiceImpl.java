@@ -67,4 +67,9 @@ public class NewsBoardServiceImpl implements NewsBoardService {
 		return dao.listNewsCount(cri);
 	}
 
+	@Override
+	public List<String> getAttach(int newsNo) throws Exception {
+		return dao.getAttach(newsNo);
+	}
+
 }

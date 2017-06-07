@@ -27,15 +27,15 @@
 <script type="text/x-handlebars-template" id="template">
 	<div class="thumbnail text-center">
 
-		<img src="{{imgsrc}}" alt="Attachment" />
+		<img src="{{getLink}}" alt="Attachment" style="margin-top: 20px;" />
 
 		<div class="caption">
-			<p>
+			<p style="margin: auto;">
 				<a href="{{getLink}}">{{fileName}}</a>
 								
-				<a href="{{fullName}}" class="btn btn-default btn-xs pull-right delbtn">
+				<small class="btn btn-default btn-xs delbtn" data-src="{{fullName}}" data-img="{{titleImg}}">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</a>
+				</small>
 								
 			</p>
 		</div>
@@ -111,56 +111,6 @@
 	    return is;
 	}
 	
-	$(document).ready(function(){ 
-		var fileTarget = $('.filebox .upload-hidden');
-		
-		fileTarget.on('change', function(){ // 값이 변경되면 
-			
-		if(window.FileReader){ // modern browser 
-			var filename = $(this)[0].files[0].name; 
-		} else { // old IE 
-			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
-		} // 추출한 파일명 삽입 
-			$(this).siblings('.upload-name').val(filename); 
-		});
-		
-		//preview image 
-	    var imgTarget = $('.preview-image .upload-hidden');
-
-	    imgTarget.on('change', function(){
-	        var parent = $(this).parent();
-	        parent.children('.upload-display').remove();
-
-	        if(window.FileReader){
-	            //image 파일만
-	            if (!$(this)[0].files[0].type.match(/image\//)) return;
-	            
-	            var reader = new FileReader();
-	            reader.onload = function(e){
-	                var src = e.target.result;
-	                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
-	            }
-	            reader.readAsDataURL($(this)[0].files[0]);
-	        }
-
-	        else {
-	            $(this)[0].select();
-	            $(this)[0].blur();
-	            var imgSrc = document.selection.createRange().text;
-	            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
-
-	            var img = $(this).siblings('.upload-display').find('img');
-	            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
-	        }
-	    });
-		
-	});	
-
-	function fileUpload(fis) {
- 		var files = fis.value;
- 	 	alert("파일네임: "+ fis.value.substring(files.lastIndexOf("\\")+1)); 	
-	}
-	
 	$(function(){
 		var template = Handlebars.compile($("#template").html());		
 		
@@ -185,6 +135,7 @@
 				type : "POST",
 				success : function(data) {
 					var fileInfo = getFileInfo(data);
+					console.log(fileInfo);
 					var html = template(fileInfo);
 					$(".uploadedTitleImg").append(html);
 				}
@@ -198,31 +149,36 @@
 			var str = "";
 			
 			$(".uploadedTitleImg .delbtn").each(function(index){
-				str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "'>";
+				str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("data-src") + "'>";
 			});
+			
 			that.append(str);
 			that.get(0).submit();
+			
 		});
 		
 		// Delete		
-		$(".uploadedTitleImg").on("click", "delbtn", function(event){
+		$(".uploadedTitleImg").on("click", "small", function(event){
+			
 			var that = $(this);
+			
 			$.ajax({
-				url : "deleteFile",
+				url : "/deleteFile",
 				type : "post",
 				data : {fileName:$(this).attr("data-src")},
 				dataType : "text",
 				success : function(result) {
 					if(result == "deleted") {
 						alert("deleted");
-						that.parent("div").remove();
+						$(".thumbnail").remove();
 						//$(".formAjax").html("<div class='fileDrop'></div>");
 					}
 				}
 			});
 		});
 		
-	});	
+	});
+	
 </script>
 
 <style type="text/css">
@@ -231,20 +187,9 @@ body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #F1F
 input[type=submit] {border: none; width: 460px; height: 60px; background-color: #353535; color: white;}
 #cke_1_contents {height: 600px !important;}
 
-.filebox input[type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; } 
-.filebox label { display: inline-block; padding: .5em .75em; margin: 0px; color: #999; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #fdfdfd; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; }
-.filebox .upload-name { width: 200px; display: inline-block; padding: .5em .75em; font-size: inherit; font-family: inherit; line-height: normal; vertical-align: middle; background-color: #f5f5f5; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
-
-/* imaged preview */ 
-.filebox .upload-display {margin-bottom: 5px; } 
-@media(min-width: 768px) { .filebox .upload-display { display: inline-block; margin-right: 5px; margin-bottom: 0; } } 
-.filebox .upload-thumb-wrap {display: inline-block; width: 54px; padding: 2px; vertical-align: middle; border: 1px solid #ddd; border-radius: 5px; background-color: #fff; } 
-.filebox .upload-display img {display: block; max-width: 100%; width: 100% \9; height: auto; }
-
 /* FileDrop */
 .fileDrop { width: 100%; height: 100px; border: 1px dotted gray; margin: auto; margin-bottom: 20px; text-align: center}
 </style>
-
 </head>
 <body>
 
@@ -308,16 +253,7 @@ input[type=submit] {border: none; width: 460px; height: 60px; background-color: 
             <!-- <form action="/uploadForm" method="post" id="formObj" enctype="multipart/form-data"> -->
             
 			   	<div class="col-md-12">
-			    		
-			   		<!-- <div class="filebox preview-image">
-			   			<input class="upload-name" value="TITLE : width 1020xp 고정" disabled="disabled">			    				
-			   			<label for="input-file">이미지 선택</label>
-			   			
-			   			<input type="file" id="input-file" class="upload-hidden" name="files" onchange="fileUpload(this)">
-			    			
-			   			<button type="button" class="upload-name" id="registerTitleImg" >등록</button>
-			   		</div> -->
-			    	
+
 			    	<div class="fileDrop">
 			    	
 			    		<p>타이틀 이미지</p>

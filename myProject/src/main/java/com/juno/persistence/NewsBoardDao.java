@@ -29,5 +29,7 @@ public interface NewsBoardDao {
 	
 	// upload
 	public void addAttach(String fullName) throws Exception;
+	
+	public List<String> getAttach(int newsNo) throws Exception;
 
 }
