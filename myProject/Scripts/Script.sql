@@ -82,3 +82,10 @@ insert into news_attach(fullName, newsNo) values('WIZ', LAST_INSERT_ID());
 
 insert into news_attach(fullName, newsNo) values(#{fullName}, LAST_INSERT_ID())
 
+select a.newsNo, a.nTitle, a.nContent, a.writer, a.ragDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from news_board a
+left join news_attach b
+on(a.newsNo = b.newsNo) where a.newsNo > 0 and nTitle like CONCAT('%', 'tinas', '%') order by a.newsNo desc, a.ragDate desc limit 0, 10;
+
+select a.newsNo, a.nTitle, a.nContent, a.writer, a.ragDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from news_board a
+left join news_attach b
+on(a.newsNo = b.newsNo) where a.newsNo > 0 order by a.newsNo desc, a.ragDate desc limit 0, 10;

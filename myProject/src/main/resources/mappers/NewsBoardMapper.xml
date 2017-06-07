@@ -8,7 +8,7 @@
 		select newsNo, nTitle, nContent, writer, ragDate, viewCnt, replyCnt, recommend, thumbnailImg
 		from news_board 
 		where newsNo > 0 
-		order by newsNo desc, ragDate desc;
+		order by newsNo desc, ragDate desc;		
 	</select>
 	
 	<select id="read" resultType="NewsBoardVo">
@@ -18,8 +18,8 @@
 	</select>
 	
 	<insert id="create">
-		insert into news_board(nTitle, nContent, writer)
-		values(#{nTitle}, #{nContent}, #{writer});
+		insert into news_board(nTitle, nContent, writer, thumbnailImg)
+		values(#{nTitle}, #{nContent}, #{writer}, #{thumbnailImg});
 	</insert>
 	
 	<update id="update">
@@ -36,32 +36,39 @@
 	<sql id="search">
 		<if test="searchType != null">
 			<if test="searchType == 't'.toString()">
-				and title like CONCAT('%', #{keyword}, '%')
+				and nTitle like CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'c'.toString()">
-				and content like CONCAT('%', #{keyword}, '%')
+				and nContent like CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'c'.toString()">
 				and writer like CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'tc'.toString()">
-				and title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%', #{keyword}, '%')
+				and nTitle like CONCAT('%', #{keyword}, '%') OR nContent like CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'cw'.toString()">
-				and content like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+				and nContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'tcw'.toString()">
-				and title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+				and nTitle like CONCAT('%', #{keyword}, '%') OR nContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
 			</if>
 		</if>
 	</sql>
 	
 	<select id="listNews" resultType="NewsBoardVo">
-		select * from news_board
+		<!-- select * from news_board
 		where newsNo > 0
 		<include refid="search" />
 		order by newsNo desc 
-		limit #{pageStart}, #{perPageNum};
+		limit #{pageStart}, #{perPageNum}; -->
+		
+		select a.newsNo, a.nTitle, a.nContent, a.writer, a.ragDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from news_board a
+		left join news_attach b
+		on(a.newsNo = b.newsNo)
+		where a.newsNo > 0
+		<include refid="search" />
+		order by a.newsNo desc, a.ragDate desc limit #{pageStart}, #{perPageNum};
 	</select>
 	
 	<select id="listNewsCount" resultType="int">

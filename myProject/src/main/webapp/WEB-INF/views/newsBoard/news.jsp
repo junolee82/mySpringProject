@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript">	
 	$(function(){
 		$("#newBtn").on("click", function(){
 			self.location = "registerNews";
@@ -116,7 +116,7 @@ p { font-size: 1em;}
             <div class="box">
             	
 	            <div class="col-md-6">
-	            	<img class="img-responsive img-border-left" src="../../../resources/img/wiz_khalifa.jpeg" alt="">
+	            	<img class="img-responsive img-border-left" src="/displayFile?fileName=${newsBoardVo.fullName }" alt="">
 	            </div>
 	            <div class="col-md-6">
 	            	<input type="hidden" value="${newsBoardVo.newsNo }"/> 

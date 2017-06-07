@@ -13,6 +13,15 @@ public class NewsBoardVo {
 	private int replyCnt;
 	private int recommend;
 	private String thumbnailImg;
+	private String fullName;
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 
 	private String[] files;
 

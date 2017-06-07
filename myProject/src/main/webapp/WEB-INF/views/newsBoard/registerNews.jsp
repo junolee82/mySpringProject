@@ -44,7 +44,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="/resources/js/upload.js"></script>
+<script type="text/javascript" src="/resources/js/upload_data.js"></script>
 <script type="text/javascript">
 
 	// ckEditor setting
@@ -149,7 +149,8 @@
 			var str = "";
 			
 			$(".uploadedTitleImg .delbtn").each(function(index){
-				str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("data-src") + "'>";
+				str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("data-img") + "'>";
+					   /* "<input type='hidden' name='thumbnailImg' value='" + $(this).attr("data-img") + "'>"; */
 			});
 			
 			that.append(str);

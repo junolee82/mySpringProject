@@ -51,12 +51,27 @@
 		</div>
 	{{/each}}
 </script>
+<script type="text/x-handlebars-template" id="templateAttach">
+	
+	<img src="/displayFile?fileName={{fullName}}" alt="templateAttach" />
 
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/js/reply.js"></script>
+<script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/resources/js/upload_data.js"></script>
 <script type="text/javascript">
 
 	var newsNo = ${readNews.newsNo};
+	
+	var template = Handlebars.compile($("#templateAttach").html());
+	$.getJSON("/newsBoard/getAttach/" + newsNo, function(list){
+		$(list).each(function(){
+			var fileInfo = getFileInfo(this);
+			var html = template(fileInfo);
+			$(".readTitleImg").append(html);
+		});
+	});
 
 	$(function(){
 		
@@ -286,6 +301,11 @@ p img {}
 	        <div class="box">
 		            
 		    	<div class="col-md-12" style="padding: 60px">
+		    	
+		    		<div class="readTitleImg text-center" style="margin-bottom: 80px;">
+		    			
+		    		</div>
+		    	
 		    		<h4>${readNews.nTitle }</h4><br>
 		    		${fn:replace(readNews.nContent, cn, br)}
 		    		<br>
