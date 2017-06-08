@@ -31,5 +31,9 @@ public interface NewsBoardDao {
 	public void addAttach(String fullName) throws Exception;
 	
 	public List<String> getAttach(int newsNo) throws Exception;
+	
+	public void deleteAttach(int newsNo) throws Exception;
+	
+	public void replaceAttach(String fullName, int newsNo) throws Exception;
 
 }

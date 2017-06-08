@@ -18,19 +18,72 @@
 
 <!-- Custom CSS -->
 <link href="../../resources/bootstrap/css/business-casual.css" rel="stylesheet">
-<link href="../../resources/bootstrap/css/bootstrap-social.css" rel="stylesheet">
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
+<!-- template -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<script type="text/x-handlebars-template" id="templateAttach">
+	
+	<div class="thumbnail text-center">
+
+		<img src="{{getLink}}" alt="Attachment" style="margin-top: 20px;" />
+
+		<div class="caption">
+			<p style="margin: auto;">
+				<a href="{{getLink}}">{{fileName}}</a>
+								
+				<small class="btn btn-default btn-xs delbtn" data-src="{{fullName}}" data-img="{{titleImg}}">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</small>
+								
+			</p>
+		</div>
+	</div>
+
+</script>
+<script type="text/x-handlebars-template" id="template">
+	<div class="thumbnail text-center">
+
+		<img src="{{getLink}}" alt="Attachment" style="margin-top: 20px;" />
+
+		<div class="caption">
+			<p style="margin: auto;">
+				<a href="{{getLink}}">{{fileName}}</a>
+								
+				<small class="btn btn-default btn-xs delbtn" data-src="{{fullName}}" data-img="{{titleImg}}">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</small>
+								
+			</p>
+		</div>
+	</div>
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/resources/js/upload.js"></script>
+<script type="text/javascript" src="/resources/js/upload_data.js"></script>
 <script type="text/javascript">
-	$(function(){
-		$("#save").click(function(){
-			$("#formObj").submit();
+
+	var newsNo = ${readNews.newsNo};
+	
+	// 타이틀 이미지 GET
+	var template = Handlebars.compile($("#templateAttach").html());
+	
+	$.getJSON("/newsBoard/getAttach/" + newsNo, function(list){
+		$(list).each(function(){
+			var fileInfo = getFileInfoMod(this);
+			var html = template(fileInfo);
+			$(".readTitleImg").append(html);
 		});
+	});
+	
+	$(function(){
+		/* $("#save").click(function(){
+			$("#formObj").submit();
+		}); */
 		$("#cancel").click(function(){
 			history.back();
 		});
@@ -66,53 +119,95 @@
 		// ckEditor 적용
 	  editor = CKEDITOR.replace( "nContent" , ckeditor_config );
 	});
-
 	
-	$(document).ready(function(){ 
-		var fileTarget = $('.filebox .upload-hidden');
+	$(function(){
+		var template = Handlebars.compile($("#template").html());		
 		
-		fileTarget.on('change', function(){ // 값이 변경되면 
-			
-		if(window.FileReader){ // modern browser 
-			var filename = $(this)[0].files[0].name; 
-		} else { // old IE 
-			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
-		} // 추출한 파일명 삽입 
-			$(this).siblings('.upload-name').val(filename); 
+		$(".fileDrop").on("dragenter dragover", function(event){
+			event.preventDefault();
 		});
 		
-		//preview image 
-	    var imgTarget = $('.preview-image .upload-hidden');
-
-	    imgTarget.on('change', function(){
-	        var parent = $(this).parent();
-	        parent.children('.upload-display').remove();
-
-	        if(window.FileReader){
-	            //image 파일만
-	            if (!$(this)[0].files[0].type.match(/image\//)) return;
-	            
-	            var reader = new FileReader();
-	            reader.onload = function(e){
-	                var src = e.target.result;
-	                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
-	            }
-	            reader.readAsDataURL($(this)[0].files[0]);
-	        }
-
-	        else {
-	            $(this)[0].select();
-	            $(this)[0].blur();
-	            var imgSrc = document.selection.createRange().text;
-	            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
-
-	            var img = $(this).siblings('.upload-display').find('img');
-	            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
-	        }
-	    });
+		$(".fileDrop").on("drop", function(event){
+			event.preventDefault();
+			
+			var files = event.originalEvent.dataTransfer.files;
+			var file = files[0];
+			var formData = new FormData();
+			formData.append("file", file);
+			
+			$.ajax({
+				url : "/uploadAjax",
+				data : formData,
+				dataType : "text",
+				processData : false,
+				contentType : false,
+				type : "POST",
+				success : function(data) {
+					var fileInfo = getFileInfo(data);
+					console.log(fileInfo);
+					var html = template(fileInfo);
+					$(".uploadedTitleImg").append(html);
+				}
+			});
+		});
 		
-	});
-
+		$("#formObj").submit(function(event){
+			event.preventDefault();
+			
+			var that = $(this);
+			var str = "";
+			
+			$(".uploadedTitleImg .delbtn").each(function(index){
+				str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("data-img") + "'>";
+			});
+			
+			that.append(str);
+			that.get(0).submit();
+			
+		});
+		
+		// Delete		
+		$(".uploadedTitleImg").on("click", "small", function(event){
+			
+			var that = $(this);
+			
+			$.ajax({
+				url : "/deleteFile",
+				type : "post",
+				data : {fileName:$(this).attr("data-src")},
+				dataType : "text",
+				success : function(result) {
+					if(result == "deleted") {
+						alert("deleted");
+						$(".thumbnail").remove();
+						//$(".formAjax").html("<div class='fileDrop'></div>");
+					}
+				}
+			});
+		});
+		
+		// Delete		
+		$(".readTitleImg").on("click", "small", function(event){
+			
+			var that = $(this);
+			
+			$.ajax({
+				url : "/deleteFile",
+				type : "post",
+				data : {fileName:$(this).attr("data-src")},
+				dataType : "text",
+				success : function(result) {
+					if(result == "deleted") {
+						alert("deleted");
+						$(".thumbnail").remove();
+						//$(".formAjax").html("<div class='fileDrop'></div>");
+					}
+				}
+			});
+		});
+		
+	}); // end ready
+	
 </script>
 
 <style type="text/css">
@@ -121,18 +216,10 @@ body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #F1F
 #cke_1_contents {height: 600px !important;}
 /* font */
 p { font-size: 1em;}
-
-.filebox input[type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; } 
-.filebox label { display: inline-block; padding: .5em .75em; margin: 0px; color: #999; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #fdfdfd; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; }
-.filebox .upload-name { display: inline-block; padding: .5em .75em; font-size: inherit; font-family: inherit; line-height: normal; vertical-align: middle; background-color: #f5f5f5; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
-
-/* imaged preview */ 
-.filebox .upload-display {margin-bottom: 5px; } 
-@media(min-width: 768px) { .filebox .upload-display { display: inline-block; margin-right: 5px; margin-bottom: 0; } } 
-.filebox .upload-thumb-wrap {display: inline-block; width: 54px; padding: 2px; vertical-align: middle; border: 1px solid #ddd; border-radius: 5px; background-color: #fff; } 
-.filebox .upload-display img {display: block; max-width: 100%; width: 100% \9; height: auto; }
-
+/* FileDrop */
+.fileDrop { width: 100%; height: 100px; border: 1px dotted gray; margin: auto; margin-bottom: 20px; text-align: center}
 </style>
+
 </head>
 <body>
 
@@ -184,7 +271,7 @@ p { font-size: 1em;}
 
         <div class="row">
         
-        <form action="modifyNews" method="post" id="formObj">
+        <form action="modifyNews" method="post" id="formObj" enctype="multipart/form-data">
 
 				<input type="hidden" name="newsNo" value="${readNews.newsNo}"/>
 						
@@ -202,7 +289,7 @@ p { font-size: 1em;}
 					</div>
         		</div>
         	</div>
-        	
+
         	<div class="box">
         		<div class="col-lg-12">
         			<div>
@@ -217,6 +304,27 @@ p { font-size: 1em;}
         		</div>
         	</div>
 
+			<div class="box">
+			   	<div class="col-md-12">
+
+			    	<div class="fileDrop">
+			    	
+			    		<p>타이틀 이미지</p>
+			    		
+			    	</div>
+			    		
+			   	</div>
+				<div class="col-lg-12">
+					<div class="readTitleImg text-center">
+		    			
+		    		</div>
+				</div>
+				
+				<div class="col-md-12 uploadedTitleImg">
+
+            	</div>
+			</div>
+
 	        <div class="box">
 		            
 		    	<div class="col-md-12">
@@ -226,33 +334,22 @@ p { font-size: 1em;}
 		    		<br>
 		    		<br>		    		
 		    	</div>
-		    	
-		    	<div class="col-md-12">
-		    		<form action="uploadForm" method="post" id="" enctype="multipart/form-data">
-		    			<div class="filebox preview-image"> 
-		    				<input class="upload-name" value="타이틀 이미지" disabled="disabled" >
-		    				
-		    				<label for="input-file">이미지 선택</label>
-		    				<input type="file" id="input-file" class="upload-hidden"> 
-		    			</div>
-		    		</form>
-		    	</div>
 	                
 	        </div>
 
-	   </form>
+	   
 	        
 	        <!-- button -->
 	        <div class="box" style="margin-bottom: 20px;">
 
-				<button type="button" class="btn btn-default" id="save">저장</button>
+				<button type="submit" class="btn btn-default" id="save">저장</button>
 				<button type="button" class="btn btn-default" id="cancel">취소</button>
 		    		                
 	        </div>
 
     	</div>
     	
-    	    	
+    	</form>    	
     	
     </div>
     <!-- /.container -->

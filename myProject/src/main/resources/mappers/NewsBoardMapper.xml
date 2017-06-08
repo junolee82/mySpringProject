@@ -96,4 +96,12 @@
 		select fullName from news_attach where newsNo = #{newsNo} order by regDate
 	</select>
 	
+	<delete id="deleteAttach">
+		delete from news_attach where newsNo = #{newsNo}
+	</delete>
+	
+	<insert id="replaceAttach">
+		insert into news_attach(fullName, newsNo) values(#{fullName}, #{newsNo})
+	</insert>
+	
 </mapper>

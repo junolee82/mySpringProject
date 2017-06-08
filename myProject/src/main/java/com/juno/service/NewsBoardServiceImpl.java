@@ -26,13 +26,16 @@ public class NewsBoardServiceImpl implements NewsBoardService {
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public NewsBoardVo read(int newsNo) throws Exception {
+		
 		dao.updateViewCnt(newsNo);
+		
 		return dao.read(newsNo);
 	}
 	
 	@Transactional
 	@Override
 	public void register(NewsBoardVo vo) throws Exception {
+		
 		dao.create(vo);
 		
 		String[] files = vo.getFiles();
@@ -46,15 +49,36 @@ public class NewsBoardServiceImpl implements NewsBoardService {
 		}
 		
 	}
-
+	
+	@Transactional
 	@Override
 	public void modify(NewsBoardVo vo) throws Exception {
+		
 		dao.update(vo);
+		
+		int newsNo = vo.getNewsNo();
+		dao.deleteAttach(newsNo);
+		
+		String[] files = vo.getFiles();
+		
+		if(files == null) {
+			return;
+		}
+		
+		for(String fileName : files) {
+			dao.replaceAttach(fileName, newsNo);
+		}
+		
 	}
-
+	
+	@Transactional
 	@Override
 	public void remove(int newsNo) throws Exception {
+		
+		dao.deleteAttach(newsNo);
+		
 		dao.delete(newsNo);
+		
 	}
 
 	@Override

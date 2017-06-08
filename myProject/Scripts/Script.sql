@@ -89,3 +89,7 @@ on(a.newsNo = b.newsNo) where a.newsNo > 0 and nTitle like CONCAT('%', 'tinas', 
 select a.newsNo, a.nTitle, a.nContent, a.writer, a.ragDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from news_board a
 left join news_attach b
 on(a.newsNo = b.newsNo) where a.newsNo > 0 order by a.newsNo desc, a.ragDate desc limit 0, 10;
+
+delete from news_attach where newsNo = 4;
+
+insert into news_attach(fullName, newsNo) values(fullName, newsNo);

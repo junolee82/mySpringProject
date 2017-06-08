@@ -51,30 +51,33 @@
 		</div>
 	{{/each}}
 </script>
+
 <script type="text/x-handlebars-template" id="templateAttach">
 	
-	<img src="/displayFile?fileName={{fullName}}" alt="templateAttach" />
+	<img src="{{getLink}}" alt="templateAttach" data-src="{{fullName}}" />
 
 </script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/js/reply.js"></script>
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="/resources/js/upload_data.js"></script>
+<script type="text/javascript" src="/resources/js/upload.js"></script>
 <script type="text/javascript">
-
+	
 	var newsNo = ${readNews.newsNo};
 	
+	// 타이틀 이미지 GET
 	var template = Handlebars.compile($("#templateAttach").html());
+	
 	$.getJSON("/newsBoard/getAttach/" + newsNo, function(list){
 		$(list).each(function(){
-			var fileInfo = getFileInfo(this);
+			var fileInfo = getFileInfoMod(this);
 			var html = template(fileInfo);
 			$(".readTitleImg").append(html);
 		});
 	});
 
-	$(function(){
-		
+	$(function(){		
 		$("#listNews").click(function(){
 			history.go(-1);
 			/* $("#formObj").attr("method", "get");
@@ -89,9 +92,30 @@
 		});
 		
 		$("#remove").click(function(){
+			
+			var replyCnt = $("#newsDelReplyCnt").text().replace(/[^0-9]/g, "");
+			
+			if(replyCnt > 0) {
+				alert("댓글이 달린 게시물을 삭제할 수 없습니다.");
+				return;
+			}
+			
+			var arr = [];
+			$(".readTitleImg img").each(function(index){
+				arr.push($(this).attr("data-src"));
+			});
+			
+			if(arr.length > 0) {
+				$.post("/deleteAllFiles", {files:arr}, function(){
+					
+				});
+			}
+			
 			$("#formObj").attr("action", "/newsBoard/removeNews");
 			$("#formObj").submit();
 		});
+		
+		
 		
 		/* LIST REPLY */
 		getPage("/replies/" + newsNo + "/1");
@@ -214,6 +238,7 @@ button[type=submit] {border: none; width: 100%; height: 60px; background-color: 
 p { font-size: 1em;}
 p img {}
 </style>
+
 </head>
 <body>
 
@@ -291,7 +316,7 @@ p img {}
         				<div style="float: right;">
         					<span>조회수  ${readNews.viewCnt }</span> 
         					<span>추천수 ${readNews.recommend }</span>
-        					<span>댓글 ${readNews.replyCnt }</span>
+        					<span>댓글 <span id="newsDelReplyCnt">${readNews.replyCnt }</span></span>
         				</div>
 
         			</div>

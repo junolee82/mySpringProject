@@ -150,7 +150,6 @@
 			
 			$(".uploadedTitleImg .delbtn").each(function(index){
 				str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("data-img") + "'>";
-					   /* "<input type='hidden' name='thumbnailImg' value='" + $(this).attr("data-img") + "'>"; */
 			});
 			
 			that.append(str);
@@ -178,7 +177,7 @@
 			});
 		});
 		
-	});
+	}); // end ready
 	
 </script>
 

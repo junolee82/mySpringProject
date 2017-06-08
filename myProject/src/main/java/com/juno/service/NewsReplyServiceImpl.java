@@ -29,8 +29,11 @@ public class NewsReplyServiceImpl implements NewsReplyService {
 	@Transactional
 	@Override
 	public void addReply(NewsReplyVo vo) throws Exception {
+		
 		dao.create(vo);
+		
 		boardDao.updateReplyCnt(vo.getNewsNo(), 1);
+		
 	}
 
 	@Override
@@ -41,9 +44,12 @@ public class NewsReplyServiceImpl implements NewsReplyService {
 	@Transactional
 	@Override
 	public void removeReply(int rNo) throws Exception {
-		int newsNo = dao.getNewsNo(rNo);
+		
+		int newsNo = dao.getNewsNo(rNo);		
 		dao.delete(rNo);
+		
 		boardDao.updateReplyCnt(newsNo, -1);
+		
 	}
 
 	@Override

@@ -71,7 +71,7 @@ public class NewsBoardDaoImpl implements NewsBoardDao {
 		session.update(namespace + ".updateViewCnt", newsNo);
 	}
 	
-	// addAttach
+	// Attach ---
 	@Override
 	public void addAttach(String fullName) throws Exception {
 		session.insert(namespace + ".addAttach", fullName);
@@ -80,6 +80,21 @@ public class NewsBoardDaoImpl implements NewsBoardDao {
 	@Override
 	public List<String> getAttach(int newsNo) throws Exception {
 		return session.selectList(namespace + ".getAttach", newsNo);
+	}
+
+	@Override
+	public void deleteAttach(int newsNo) throws Exception {
+		session.delete(namespace + ".deleteAttach", newsNo);
+	}
+
+	@Override
+	public void replaceAttach(String fullName, int newsNo) throws Exception {
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		paramMap.put("newsNo", newsNo);
+		paramMap.put("fullName", fullName);
+		
+		session.insert(namespace + ".replaceAttach", paramMap);
 	}
 
 }
