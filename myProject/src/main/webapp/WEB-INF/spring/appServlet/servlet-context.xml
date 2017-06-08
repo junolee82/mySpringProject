@@ -30,6 +30,21 @@
 	
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg value="C:\\zzz\\upload"></beans:constructor-arg>
-	</beans:bean>	
+	</beans:bean>
+	
+	<!-- Interceptor -->
+	<beans:bean id="loginInterceptor" class="com.juno.interceptor.LoginInterceptor">		
+	</beans:bean>
+	
+	<interceptors>
+	
+		<interceptor>
+			<mapping path="/user/loginPost"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		
+		
+		
+	</interceptors>
 	
 </beans:beans>

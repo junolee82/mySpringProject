@@ -16,7 +16,7 @@
 <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
 <!-- Custom CSS -->
-<link href="../../resources/bootstrap/css/business-casual.css" rel="stylesheet">
+<link href="../../resources/bootstrap/css/MyPage.css" rel="stylesheet">
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -57,7 +57,10 @@ p { font-size: 1em;}
 <body>
 
     <div class="brand" style="margin-bottom: 20px">KoreaHipHop.com</div>
-    <!-- <div class="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div> -->
+    <div class="address-bar">
+    	<a href="/user/login" style="margin-right: 6px;"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>
+    	<a href="#" style="margin-left: 6px;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">

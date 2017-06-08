@@ -22,7 +22,7 @@
 <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
 <!-- Custom CSS -->
-<link href="../../resources/bootstrap/css/business-casual.css" rel="stylesheet">
+<link href="../../resources/bootstrap/css/MyPage.css" rel="stylesheet">
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">

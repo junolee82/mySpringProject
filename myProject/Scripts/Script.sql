@@ -93,3 +93,21 @@ on(a.newsNo = b.newsNo) where a.newsNo > 0 order by a.newsNo desc, a.ragDate des
 delete from news_attach where newsNo = 4;
 
 insert into news_attach(fullName, newsNo) values(fullName, newsNo);
+
+/* LOGIN & JOIN */
+create table com_user(
+	uId VARCHAR(50) not null,
+	uPw VARCHAR(50) not null,
+	uName VARCHAR(50) not null,
+	uEmail VARCHAR(50) not null,
+	uPhone VARCHAR(20) not null,
+	ragDate TIMESTAMP not null default now(),
+	primary key(uId));
+	
+select * from com_user;
+
+insert into com_user(uId, uPw, uName, uEmail, uPhone) values('admin', 'admin', '관리자', 'juno@gmail.com', '010-9479-8043');
+insert into com_user(uId, uPw, uName, uEmail, uPhone) values('user00', 'user00', '이준호', 'junolee@gmail.com', '010-9479-8043');
+insert into com_user(uId, uPw, uName, uEmail, uPhone) values('user01', 'user01', '이하나', 'hana@gmail.com', '010-7893-2456');
+
+select uId, uPw, uName from com_user where uId = 'admin' and uPw = 'admin';

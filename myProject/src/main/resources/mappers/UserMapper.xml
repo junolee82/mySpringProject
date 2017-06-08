@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juno.mappers.UserMapper">
+	
+	<select id="login" resultType="UserVo">
+		select uId, uPw, uName from com_user where uId = #{uId} and uPw = #{uPw}
+	</select>
+	
+</mapper>
