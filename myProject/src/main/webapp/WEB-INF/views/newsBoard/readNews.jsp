@@ -44,7 +44,11 @@
 			<div class="col-md-12">
 				<p>
 				<span class="timeline-body">{{replyText}}</span>
+				
+				{{#eqReplyer replyer}}
 				<a class="btn btn-default btn-xs" data-toggle="modal" data-target="#modifyModal">댓글수정</a>
+				{{/eqReplyer}}
+				
 				</p>
 			</div>
 				
@@ -75,6 +79,14 @@
 			var html = template(fileInfo);
 			$(".readTitleImg").append(html);
 		});
+	});
+	
+	Handlebars.registerHelper("eqReplyer", function(replyer, block){
+		var accum = "";
+		if(replyer == '${login.uId}') {
+			accum += block.fn();
+		}
+		return accum;
 	});
 
 	$(function(){		
@@ -234,9 +246,11 @@ textarea.form-control:focus{outline: none; border-color: none; box-shadow: none;
 input[type=text] { border: none; box-shadow: none; padding: 15px 20px; margin: 10px 0px;}
 input[type=text].form-control:focus{outline: none; border-color: none; box-shadow: none;}
 button[type=submit] {border: none; width: 100%; height: 60px; background-color: #353535; color: white;}
+#beforeAddBtn[type=button] {border: none; width: 100%; height: 60px; background-color: #353535; color: white;}
 /* font */
 p { font-size: 1em;}
 p img {}
+.form-control[readonly] {background-color: white;}
 </style>
 
 </head>
@@ -352,8 +366,10 @@ p img {}
 					  <input type="button" class="btn btn-default" value="Facebook" />
 					</div>
 					
+					<c:if test="${login.uId == 'admin' }">
 					<button type="button" class="btn btn-default" id="modify">수정</button>
 					<button type="button" class="btn btn-default" id="remove">삭제</button>
+					</c:if>
 				
 		    	</div>
 		    	
@@ -363,12 +379,24 @@ p img {}
 			
 			<!-- reply -->
 			
-			<div class="box" style="margin: 0px 20px 20px 20px; padding: 0px;" >
-				<textarea class="form-control" rows="4" style="resize:none" placeholder="COMMENT" id="newReplyText"></textarea>
-				<input type="text" class="form-control" placeholder="USER ID" id="newReplyWriter"/>
-				
-				<button type="submit" id="replyAddBtn">Post Comment</button>
-			</div>
+			<c:if test="${not empty login }">
+				<div class="box" style="margin: 0px 20px 20px 20px; padding: 0px;" >
+					<textarea class="form-control" rows="4" style="resize:none" placeholder="COMMENT" id="newReplyText"></textarea>
+					<input type="text" class="form-control" value="USER ID - ${login.uId }" id="newReplyWriter" readonly="readonly"/>
+					
+					<button type="submit" id="replyAddBtn">Post Comment</button>
+				</div>
+			</c:if>
+			<c:if test="${empty login }">
+				<div class="box" style="margin: 0px 20px 20px 20px; padding: 0px;" >
+					<a href="/user/login">
+					<textarea class="form-control" rows="4" style="resize:none" placeholder="COMMENT&#13;&#10;&#13;&#10; - 로그인이 필요한 서비스입니다. 로그인 하시겠습니까?" id="newReplyText"></textarea>
+					<input type="text" class="form-control" placeholder="USER ID" id="newReplyWriter" readonly="readonly"/>
+					</a>
+					
+					<button type="button" id="beforeAddBtn">Post Comment</button>
+				</div>
+			</c:if>
 			
 			<div id="repliesDiv">
 			
@@ -378,7 +406,7 @@ p img {}
 				<ul id="pagination" class="pagination pagination-sm no-margin">
 					
 				</ul>
-			</div>			
+			</div>
 			
     	</div> <!-- end row -->     	    	
     	

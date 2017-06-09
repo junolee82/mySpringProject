@@ -111,3 +111,5 @@ insert into com_user(uId, uPw, uName, uEmail, uPhone) values('user00', 'user00',
 insert into com_user(uId, uPw, uName, uEmail, uPhone) values('user01', 'user01', '이하나', 'hana@gmail.com', '010-7893-2456');
 
 select uId, uPw, uName from com_user where uId = 'admin' and uPw = 'admin';
+
+select uId from com_user where uId = 'juno';

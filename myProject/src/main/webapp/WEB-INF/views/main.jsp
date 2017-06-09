@@ -23,14 +23,38 @@
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
 <style type="text/css">
-body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #EAEAEA;}
+body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #F1F1F1;}
+.box{margin-bottom: 0px; border-bottom: 1px solid #EAEAEA; background: rgba(255,255,255,1);}
+.nClick:hover {}
+.nClick:hover img {opacity: 0.8;}
+.nClick:hover a {color: #980000;}
+.nClick:hover p {color: #980000;}
+a {color: black;}
+a:hover {text-decoration: none; color: #980000;}
+.contentBox{height: 80px; margin-bottom: 10px; overflow:hidden; text-overflow: ellipsis; text-align: left;}
+.content{font-size: 12px;}
+/* font */
+p { font-size: 1em;}
 </style>
 
 </head>
 <body>
 
-    <div class="brand">KoreaHipHop.com</div>
-    <div class="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div>
+    <div class="brand" style="margin-bottom: 20px">KoreaHipHop.com</div>
+    <div class="address-bar">
+    
+    	<c:choose>
+    		<c:when test="${empty login }">
+    		<a href="/user/login" style="margin-right: 6px;"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>
+    		</c:when>
+    		<c:when test="${not empty login }">
+    		<a href="/user/logout" style="margin-right: 6px;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
+    		</c:when>
+    	</c:choose>
+    	
+    	<a href="/user/join" style="margin-left: 6px;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+    	
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">

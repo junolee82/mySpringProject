@@ -47,6 +47,7 @@ body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #F1F
 .nClick:hover a {color: #980000;}
 .nClick:hover p {color: #980000;}
 a {color: black;}
+a:hover {text-decoration: none; color: #980000;}
 .contentBox{height: 80px; margin-bottom: 10px; overflow:hidden; text-overflow: ellipsis; text-align: left;}
 .content{font-size: 12px;}
 /* font */
@@ -55,11 +56,21 @@ p { font-size: 1em;}
 
 </head>
 <body>
-
-    <div class="brand" style="margin-bottom: 20px">KoreaHipHop.com</div>
+	
+    <div class="brand" style="margin-bottom: 20px"><a href="/main">KoreaHipHop.com</a></div>
     <div class="address-bar">
-    	<a href="/user/login" style="margin-right: 6px;"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>
-    	<a href="#" style="margin-left: 6px;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+    
+    	<c:choose>
+    		<c:when test="${empty login }">
+    		<a href="/user/login" style="margin-right: 6px;"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>
+    		</c:when>
+    		<c:when test="${not empty login }">
+    		<a href="/user/logout" style="margin-right: 6px;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
+    		</c:when>
+    	</c:choose>
+    	
+    	<a href="/user/join" style="margin-left: 6px;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+    	
     </div>
 
     <!-- Navigation -->
@@ -159,7 +170,11 @@ p { font-size: 1em;}
 					
 					</div>
 					<button id="searchBtn" class="btn btn-primary">Search</button>
+					
+					<c:if test="${login.uId == 'admin'}">
 					<button id="newBtn" class="btn btn-primary">New Board</button>
+					</c:if>
+					
 				</div>            
             
 				<!-- pagination -->

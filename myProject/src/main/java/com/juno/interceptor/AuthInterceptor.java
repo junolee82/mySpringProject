@@ -20,11 +20,32 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 		if (session.getAttribute("login") == null) {
 			logger.info("current user is not logined");
+			
+			saveDest(request);
+			
 			response.sendRedirect("/user/login");
 			return false;
 		}
 
 		return true;
+	}
+
+	private void saveDest(HttpServletRequest req) {
+
+		String uri = req.getRequestURI();
+
+		String query = req.getQueryString();
+
+		if (query == null || query.equals("null")) {
+			query = "";
+		} else {
+			query = "?" + query;
+		}
+
+		if (req.getMethod().equals("GET")) {
+			logger.info("dest: " + (uri + query));
+			req.getSession().setAttribute("dest", uri + query);
+		}
 	}
 
 }

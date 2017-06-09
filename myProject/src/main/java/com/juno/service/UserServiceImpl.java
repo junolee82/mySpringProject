@@ -19,4 +19,14 @@ public class UserServiceImpl implements UserService {
 		return dao.login(dto);
 	}
 
+	@Override
+	public void join(UserVo vo) throws Exception {
+		dao.join(vo);
+	}
+
+	@Override
+	public UserVo checkId(String uId) throws Exception {
+		return dao.checkId(uId);
+	}
+
 }

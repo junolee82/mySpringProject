@@ -36,6 +36,9 @@
 	<beans:bean id="loginInterceptor" class="com.juno.interceptor.LoginInterceptor">		
 	</beans:bean>
 	
+	<beans:bean id="authInterceptor" class="com.juno.interceptor.AuthInterceptor">
+	</beans:bean>
+	
 	<interceptors>
 	
 		<interceptor>
@@ -43,7 +46,12 @@
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 		
-		
+		<interceptor>
+			<mapping path="/newsBoard/registerNews"/>
+			<mapping path="/newsBoard/modifyNews"/>
+			<mapping path="/newsBoard/removeNews"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
 		
 	</interceptors>
 	

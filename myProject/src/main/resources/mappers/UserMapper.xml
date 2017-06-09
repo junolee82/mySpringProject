@@ -8,4 +8,13 @@
 		select uId, uPw, uName from com_user where uId = #{uId} and uPw = #{uPw}
 	</select>
 	
+	<insert id="join">
+		insert into com_user(uId, uPw, uName, uEmail, uPhone) 
+		values(#{uId}, #{uPw}, #{uName}, #{uEmail}, #{uPhone})
+	</insert>
+	
+	<select id="checkId">
+		select uId from com_user where uId = #{uId}
+	</select>
+	
 </mapper>
