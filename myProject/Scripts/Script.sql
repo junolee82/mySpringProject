@@ -113,3 +113,47 @@ insert into com_user(uId, uPw, uName, uEmail, uPhone) values('user01', 'user01',
 select uId, uPw, uName from com_user where uId = 'admin' and uPw = 'admin';
 
 select uId from com_user where uId = 'juno';
+
+
+
+/* MAGAZINE TABLE */
+create table magazine_board(
+	mNo INT not null AUTO_INCREMENT,
+	mTitle VARCHAR(200) not null,
+	mContent TEXT null,
+	writer VARCHAR(50) not null,
+	ragDate DATETIME not null default now(),
+	viewCnt INT default 0,
+	replyCnt INT default 0,
+	recommend INT default 0,
+	PRIMARY KEY (mNo));
+	
+select * from magazine_board;
+
+drop table magazine_board;
+
+/* MAGAZINE REPLY */
+create table magazine_reply(
+	rNo INT not null AUTO_INCREMENT,
+	mNo INT not null default 0,
+	replyText VARCHAR(1000) not null,
+	replyer VARCHAR(50) not null,
+	regDate TIMESTAMP not null default now(),
+	updateDate TIMESTAMP not null default now(),
+	primary key(rNo));
+
+alter table magazine_reply add constraint
+foreign key(mNo) references magazine_board(mNo);
+
+/* ATTACH */
+create table magazine_attach(
+	fullName VARCHAR(150) not null,
+	mNo INT not null,
+	regDate TIMESTAMP default now(),
+	primary key(fullName));
+	
+alter table magazine_attach add constraint
+foreign key(mNo) references magazine_board(mNo);
+
+
+	

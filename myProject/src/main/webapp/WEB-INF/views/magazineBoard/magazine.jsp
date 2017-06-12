@@ -23,10 +23,10 @@
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script type="text/javascript">	
+<script type="text/javascript">
 	$(function(){
 		$("#newBtn").on("click", function(){
-			self.location = "registerNews";
+			self.location = "registerMagazine";
 		});
 		
 		$("#searchBtn").on("click", function(){
@@ -70,31 +70,31 @@ p { font-size: 1em;}
         	<div class="box">
         		<div class="col-lg-12">
         			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-        			<strong> NEWS</strong>
+        			<strong> MAGAZINE</strong>
         		</div>
         	</div>
         	
-        	<c:forEach items="${list }" var="newsBoardVo">
+        	<c:forEach items="${list }" var="magazineBoardVo">
         	<div class="nClick">
         	
             <a href="/newsBoard/readNews${pageMaker.makeQuery(pageMaker.cri.page) }&newsNo=${newsBoardVo.newsNo }">
             <div class="box">
             	
 	            <div class="col-md-6">
-	            	<img class="img-responsive img-border-left" src="/displayFile?fileName=${newsBoardVo.fullName }" alt="">
+	            	<img class="img-responsive img-border-left" src="/displayFile?fileName=${magazineBoardVo.fullName }" alt="">
 	            </div>
 	            <div class="col-md-6">
-	            	<input type="hidden" value="${newsBoardVo.newsNo }"/> 
-                    <p style="font-size: 1.25em;"><strong>${newsBoardVo.nTitle }</strong></p>
+	            	<input type="hidden" value="${magazineBoardVo.newsNo }"/> 
+                    <p style="font-size: 1.25em;"><strong>${magazineBoardVo.nTitle }</strong></p>
                     <div class="contentBox">
-                    	<p class="content">${newsBoardVo.nContent }</p>
+                    	<p class="content">${magazineBoardVo.nContent }</p>
                     </div>	            	
 	            	
-	            	조회수 ${newsBoardVo.viewCnt } |
-	            	댓글 ${newsBoardVo.replyCnt } |
-	            	추천 ${newsBoardVo.recommend } |
-	            	작성자 ${newsBoardVo.writer } |
-	            	작성일  <fmt:formatDate value="${newsBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
+	            	조회수 ${magazineBoardVo.viewCnt } |
+	            	댓글 ${magazineBoardVo.replyCnt } |
+	            	추천 ${magazineBoardVo.recommend } |
+	            	작성자 ${magazineBoardVo.writer } |
+	            	작성일  <fmt:formatDate value="${magazineBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
 	            </div>
 	            	
 			</div>
@@ -148,37 +148,6 @@ p { font-size: 1em;}
 				</div>
             
         </div>
-
-        <!-- <div class="row">
-            <div class="box">
-                <div class="col-lg-12">
-                    <hr>
-                    <h2 class="intro-text text-center">Our
-                        <strong>Team</strong>
-                    </h2>
-                    <hr>
-                </div>
-                <div class="col-sm-4 text-center">
-                    <img class="img-responsive" src="http://placehold.it/750x450" alt="">
-                    <h3>John Smith
-                        <small>Job Title</small>
-                    </h3>
-                </div>
-                <div class="col-sm-4 text-center">
-                    <img class="img-responsive" src="http://placehold.it/750x450" alt="">
-                    <h3>John Smith
-                        <small>Job Title</small>
-                    </h3>
-                </div>
-                <div class="col-sm-4 text-center">
-                    <img class="img-responsive" src="http://placehold.it/750x450" alt="">
-                    <h3>John Smith
-                        <small>Job Title</small>
-                    </h3>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div> -->
 
     </div>
     <!-- /.container -->

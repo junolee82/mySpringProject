@@ -78,13 +78,11 @@ public class UserController {
 
 	@RequestMapping(value = "checkId/{uId}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Boolean> chechId(@PathVariable("uId") String uId) {
-		System.out.println(" come");
+	public ResponseEntity<Boolean> chechId(@PathVariable("uId") String uId) throws Exception {
 		ResponseEntity<Boolean> entity = null;
-
+		
 		try {
-			String id = service.checkId(uId).getuId();
-			logger.info(id);
+			UserVo id = service.checkId(uId);			
 
 			boolean chechIdVal = false;
 

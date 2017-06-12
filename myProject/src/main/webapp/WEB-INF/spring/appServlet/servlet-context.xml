@@ -50,6 +50,11 @@
 			<mapping path="/newsBoard/registerNews"/>
 			<mapping path="/newsBoard/modifyNews"/>
 			<mapping path="/newsBoard/removeNews"/>
+			
+			<mapping path="/magazineBoard/registerMagazine"/>
+			<mapping path="/magazineBoard/modifyMagazine"/>
+			<mapping path="/magazineBoard/removeMagazine"/>
+			
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 		

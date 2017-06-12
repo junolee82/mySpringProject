@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juno.mappers.MagazineBoardMapper">
+
+	<select id="listMagazine" resultType="MagazineBoardVo">		
+		select a.mNo, a.mTitle, a.mContent, a.writer, a.ragDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from magazine_board a
+		left join magazine_attach b
+		on(a.mNo = b.mNo)
+		where a.mNo > 0
+		<include refid="search" />
+		order by a.mNo desc, a.ragDate desc limit #{pageStart}, #{perPageNum};
+	</select>
+	
+	<select id="listMagazineCount" resultType="int">
+		select count(mNo)
+		from magazine_board
+		where mNo > 0
+		<include refid="search" />;
+	</select>
+	
+	<select id="read" resultType="MagazineBoardVo">
+		select mNo, mTitle, mContent, writer, ragDate, viewCnt, replyCnt, recommend
+		from magazine_board 
+		where mNo = #{mNo};
+	</select>
+	
+	<insert id="create">
+		insert into magazine_board(mTitle, mContent, writer)
+		values(#{mTitle}, #{mContent}, #{writer});
+	</insert>
+	
+	<update id="update">
+		update magazine_board 
+		set mTitle = #{mTitle}, mContent = #{mContent} 
+		where mNo = #{mNo};
+	</update>
+	
+	<delete id="delete">
+		delete from magazine_board where mNo = #{mNo};
+	</delete>
+	
+	<!-- Search & Paging -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				and mTitle like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and mContent like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				and mTitle like CONCAT('%', #{keyword}, '%') OR mContent like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				and mContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				and mTitle like CONCAT('%', #{keyword}, '%') OR mContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+		</if>
+	</sql>
+	
+	<!-- Transaction -->
+	<update id="updateReplyCnt">
+		update magazine_board set replyCnt = replyCnt + #{amount} where mNo = #{mNo};
+	</update>
+	
+	<update id="updateViewCnt">
+		update magazine_board set viewCnt = viewCnt + 1 where mNo = #{mNo};
+	</update>
+	
+	<!-- UPLOAD -->
+	<insert id="addAttach">
+		insert into magazine_attach(fullName, mNo) values(#{fullName}, LAST_INSERT_ID())
+	</insert>
+	
+	<select id="getAttach" resultType="string">
+		select fullName from magazine_attach where mNo = #{mNo} order by regDate
+	</select>
+	
+	<delete id="deleteAttach">
+		delete from magazine_attach where mNo = #{mNo}
+	</delete>
+	
+	<insert id="replaceAttach">
+		insert into magazine_attach(fullName, mNo) values(#{fullName}, #{mNo})
+	</insert>
+	
+</mapper>

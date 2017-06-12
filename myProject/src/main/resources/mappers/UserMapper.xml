@@ -13,7 +13,7 @@
 		values(#{uId}, #{uPw}, #{uName}, #{uEmail}, #{uPhone})
 	</insert>
 	
-	<select id="checkId">
+	<select id="checkId" resultType="UserVo">
 		select uId from com_user where uId = #{uId}
 	</select>
 	

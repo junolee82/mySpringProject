@@ -21,6 +21,16 @@
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="/resources/js/common.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("form[name='formObj']").submit(function(){
+			if(!checkInputEmpty($("input[name]"))){
+				return false;
+			}
+		});		
+	});
+</script>
 
 <style type="text/css">
 #wrap{ width:1000px; padding: 0; text-align: center;}
@@ -40,6 +50,8 @@ input[type=submit] { width: 460px; height: 60px; background-color: #212121; colo
 #footer{ margin-top: 50px; margin-bottom: 20px;}
 #footer img { width: 60px; margin-right: 20px;}
 a{ color: #670000;}
+/* 에러 메세지 */
+.error { display: none; color: red; padding: 0; margin: 0 0 0 0; font-size: 12px; padding-top: 8px;}
 </style>
 
 </head>
@@ -51,17 +63,19 @@ a{ color: #670000;}
 			<div class="brand" style="margin-bottom: 20px">KoreaHipHop.com</div>	
 		</div>
 		
-		<form action="/user/loginPost" method="post">
+		<form action="/user/loginPost" method="post" name="formObj">
 		
 			<div id="form1">
 				<div class="form-group">
 					<input type="text" name="uId" class="form-control" id="" placeholder="아이디">
+					<span class="error">아이디를 입력하세요.</span>
 				</div>
 			</div>
 			
 			<div id="form2">
 				<div class="form-group">
 					<input type="password" name="uPw" class="form-control" id="" placeholder="비밀번호">
+					<span class="error">비밀번호를 입력하세요.</span>
 				</div>
 				<div>
 					<!-- <input type="checkbox" name="useCookie" /> -->
