@@ -47,7 +47,7 @@ public class MagazineBoardDaoImpl implements MagazineBoardDao {
 
 	@Override
 	public void delete(int mNo) throws Exception {
-		session.delete(namespace + "delete", mNo);
+		session.delete(namespace + ".delete", mNo);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class MagazineBoardDaoImpl implements MagazineBoardDao {
 		paramMap.put("mNo", mNo);
 		paramMap.put("amount", amount);
 
-		session.update(namespace + "updateReplyCnt", paramMap);
+		session.update(namespace + ".updateReplyCnt", paramMap);
 	}
 
 	@Override

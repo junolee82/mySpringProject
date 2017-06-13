@@ -5,14 +5,14 @@
 <mapper namespace="com.juno.mappers.NewsBoardMapper">
 
 	<select id="listAll" resultType="NewsBoardVo">
-		select newsNo, nTitle, nContent, writer, ragDate, viewCnt, replyCnt, recommend, thumbnailImg
+		select newsNo, nTitle, nContent, writer, regDate, viewCnt, replyCnt, recommend, thumbnailImg
 		from news_board 
 		where newsNo > 0 
-		order by newsNo desc, ragDate desc;		
+		order by newsNo desc, regDate desc;		
 	</select>
 	
 	<select id="read" resultType="NewsBoardVo">
-		select newsNo, nTitle, nContent, writer, ragDate, viewCnt, replyCnt, recommend, thumbnailImg
+		select newsNo, nTitle, nContent, writer, regDate, viewCnt, replyCnt, recommend, thumbnailImg
 		from news_board 
 		where newsNo = #{newsNo};
 	</select>
@@ -63,12 +63,12 @@
 		order by newsNo desc 
 		limit #{pageStart}, #{perPageNum}; -->
 		
-		select a.newsNo, a.nTitle, a.nContent, a.writer, a.ragDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from news_board a
+		select a.newsNo, a.nTitle, a.nContent, a.writer, a.regDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from news_board a
 		left join news_attach b
 		on(a.newsNo = b.newsNo)
 		where a.newsNo > 0
 		<include refid="search" />
-		order by a.newsNo desc, a.ragDate desc limit #{pageStart}, #{perPageNum};
+		order by a.newsNo desc, a.regDate desc limit #{pageStart}, #{perPageNum};
 	</select>
 	
 	<select id="listNewsCount" resultType="int">

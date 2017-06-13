@@ -16,7 +16,7 @@ public class MagazineBoardVo {
 
 	private String[] files;
 
-	public int getMagazineNo() {
+	public int getmNo() {
 		return mNo;
 	}
 
@@ -56,7 +56,7 @@ public class MagazineBoardVo {
 		return files;
 	}
 
-	public void setMagazineNo(int mNo) {
+	public void setmNo(int mNo) {
 		this.mNo = mNo;
 	}
 
@@ -100,8 +100,7 @@ public class MagazineBoardVo {
 	public String toString() {
 		return String.format(
 				"MagazineBoardVo [mNo=%s, mTitle=%s, mContent=%s, writer=%s, regDate=%s, viewCnt=%s, replyCnt=%s, recommend=%s, fullName=%s, files=%s]",
-				mNo, mTitle, mContent, writer, regDate, viewCnt, replyCnt, recommend, fullName,
-				Arrays.toString(files));
+				mNo, mTitle, mContent, writer, regDate, viewCnt, replyCnt, recommend, fullName, Arrays.toString(files));
 	}
 
 }

@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>KoreaHipHop</title>
+<title>HipHopDX</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -24,6 +24,7 @@
 
 <!-- template -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<!-- 게시물 타이틀 이미지 뷰 -->
 <script type="text/x-handlebars-template" id="template">
 	<div class="thumbnail text-center">
 
@@ -35,8 +36,7 @@
 								
 				<small class="btn btn-default btn-xs delbtn" data-src="{{fullName}}" data-img="{{titleImg}}">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</small>
-								
+				</small>								
 			</p>
 		</div>
 	</div>
@@ -76,7 +76,7 @@
 
 	jQuery(function() {
 		// ckEditor 적용
-	  editor = CKEDITOR.replace( "nContent" , ckeditor_config );
+		editor = CKEDITOR.replace( "nContent" , ckeditor_config );
 	});
 
 	// 입력 항목의 체크 함수
@@ -142,6 +142,7 @@
 			});
 		});
 		
+		// registerPage 게시물 등록
 		$("#registerForm").submit(function(event){
 			event.preventDefault();
 			
@@ -157,7 +158,7 @@
 			
 		});
 		
-		// Delete		
+		// ImageDelete
 		$(".uploadedTitleImg").on("click", "small", function(event){
 			
 			var that = $(this);

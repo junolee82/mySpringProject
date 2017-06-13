@@ -5,12 +5,12 @@
 <mapper namespace="com.juno.mappers.MagazineBoardMapper">
 
 	<select id="listMagazine" resultType="MagazineBoardVo">		
-		select a.mNo, a.mTitle, a.mContent, a.writer, a.ragDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from magazine_board a
+		select a.mNo, a.mTitle, a.mContent, a.writer, a.regDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from magazine_board a
 		left join magazine_attach b
 		on(a.mNo = b.mNo)
 		where a.mNo > 0
 		<include refid="search" />
-		order by a.mNo desc, a.ragDate desc limit #{pageStart}, #{perPageNum};
+		order by a.mNo desc, a.regDate desc limit #{pageStart}, #{perPageNum};
 	</select>
 	
 	<select id="listMagazineCount" resultType="int">
@@ -21,7 +21,7 @@
 	</select>
 	
 	<select id="read" resultType="MagazineBoardVo">
-		select mNo, mTitle, mContent, writer, ragDate, viewCnt, replyCnt, recommend
+		select mNo, mTitle, mContent, writer, regDate, viewCnt, replyCnt, recommend
 		from magazine_board 
 		where mNo = #{mNo};
 	</select>

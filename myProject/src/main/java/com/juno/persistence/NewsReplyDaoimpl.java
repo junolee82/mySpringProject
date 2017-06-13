@@ -41,10 +41,12 @@ public class NewsReplyDaoimpl implements NewsReplyDao {
 	}
 
 	@Override
-	public List<NewsReplyVo> listPaging(int newsNo, Criteria cri) throws Exception {
+	public List<NewsReplyVo> listPaging(int newsNo, Criteria cri) throws Exception {		
 		Map<String, Object> paramMap = new HashMap<>();
+		
 		paramMap.put("newsNo", newsNo);
 		paramMap.put("cri", cri);
+		
 		return session.selectList(namespace + ".listPaging", paramMap);
 	}
 

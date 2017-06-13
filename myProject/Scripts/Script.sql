@@ -6,7 +6,7 @@ create table news_board(
 	nTitle VARCHAR(200) not null,
 	nContent TEXT null,
 	writer VARCHAR(50) not null,
-	ragDate DATETIME not null default now(),
+	regDate DATETIME not null default now(),
 	viewCnt INT default 0,
 	replyCnt INT default 0,
 	recommend INT default 0,
@@ -122,7 +122,7 @@ create table magazine_board(
 	mTitle VARCHAR(200) not null,
 	mContent TEXT null,
 	writer VARCHAR(50) not null,
-	ragDate DATETIME not null default now(),
+	regDate DATETIME not null default now(),
 	viewCnt INT default 0,
 	replyCnt INT default 0,
 	recommend INT default 0,
@@ -155,5 +155,7 @@ create table magazine_attach(
 alter table magazine_attach add constraint
 foreign key(mNo) references magazine_board(mNo);
 
+drop table magazine_board;
 
+alter table news_board change ragDate regDate DATETIME not null default now();
 	

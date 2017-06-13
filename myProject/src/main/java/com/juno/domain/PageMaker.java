@@ -95,6 +95,13 @@ public class PageMaker {
 				.queryParam("keyword", encoding(((SearchCriteria) cri).getKeyword())).build();
 		return uriComponents.toUriString();
 	}
+	
+	// makeSearch - ?page=1&perPageNum=10
+	public String makeSearch(int page) {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("page", page)
+				.queryParam("perPageNum", cri.getPerPageNum()).build();
+		return uriComponents.toUriString();
+	}
 
 	private Object encoding(String keyword) {
 		if (keyword == null || keyword.trim().length() == 0) {

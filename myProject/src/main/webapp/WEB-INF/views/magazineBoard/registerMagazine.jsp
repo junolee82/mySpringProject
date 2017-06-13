@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>KoreaHipHop</title>
+<title>HipHopDX</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -24,6 +24,7 @@
 
 <!-- template -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<!-- 게시물 타이틀 이미지 뷰 -->
 <script type="text/x-handlebars-template" id="template">
 	<div class="thumbnail text-center">
 
@@ -35,8 +36,7 @@
 								
 				<small class="btn btn-default btn-xs delbtn" data-src="{{fullName}}" data-img="{{titleImg}}">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</small>
-								
+				</small>								
 			</p>
 		</div>
 	</div>
@@ -74,42 +74,9 @@
 	
 	var editor = null;
 
-	jQuery(function() {
-		// ckEditor 적용
-	  editor = CKEDITOR.replace( "mContent" , ckeditor_config );
+	jQuery(function() {	// ckEditor 적용
+		editor = CKEDITOR.replace( "mContent" , ckeditor_config );
 	});
-
-	// 입력 항목의 체크 함수
-	function filter(options) {
-	    var is = true;
-	
-	    jQuery(options).each(function() {
-	        var item = this;
-	
-	        switch (item.filter) {
-	            case 'empty' :
-	                var val = jQuery(item.target).val();
-	                if (val == '') {
-	                    alert(item.title + '을(를) 입력하세요.');
-	                    jQuery(item.target).focus();
-	                    is = false;
-	                }
-	            break;
-	
-	            case 'number' :
-	                var val = jQuery(item.target).val();
-	                var num_regx = /[^0-9]/;
-	                if (num_regx.test(val)) {
-	                alert(item.title + '을(를) 숫자만 입력하세요.');
-	                jQuery(item.target).focus();
-	                    is = false;
-	                }
-	            break;
-	
-	        }
-	    });
-	    return is;
-	}
 	
 	$(function(){
 		var template = Handlebars.compile($("#template").html());		
@@ -142,6 +109,7 @@
 			});
 		});
 		
+		// registerPage 게시물 등록
 		$("#registerForm").submit(function(event){
 			event.preventDefault();
 			
@@ -157,7 +125,7 @@
 			
 		});
 		
-		// Delete		
+		// ImageDelete
 		$(".uploadedTitleImg").on("click", "small", function(event){
 			
 			var that = $(this);
@@ -182,13 +150,12 @@
 </script>
 
 <style type="text/css">
-body{/* background: url("../../resources/img/bg.jpg"); */ background-color: #F1F1F1;}
+body{background-color: #F1F1F1;}
 .box{border-bottom: 1px solid #EAEAEA;}
 input[type=submit] {border: none; width: 460px; height: 60px; background-color: #353535; color: white;}
 #cke_1_contents {height: 600px !important;}
 a {color: black;}
 a:hover {text-decoration: none; color: #980000;}
-
 /* FileDrop */
 .fileDrop { width: 100%; height: 100px; border: 1px dotted gray; margin: auto; margin-bottom: 20px; text-align: center}
 </style>
@@ -212,12 +179,9 @@ a:hover {text-decoration: none; color: #980000;}
         			&nbsp;
         			<strong> MAGAZINE REGISTER</strong>
         		</div>
-        	</div>
-        	
+        	</div>        	
      	
             <div class="box">
-            
-            <!-- <form action="/uploadForm" method="post" id="formObj" enctype="multipart/form-data"> -->
             
 			   	<div class="col-md-12">
 
@@ -229,37 +193,37 @@ a:hover {text-decoration: none; color: #980000;}
 			    		
 			   	</div>	    
 				            
-            <form action="registerMagazine" method="post" id="registerForm" enctype="multipart/form-data">
-            
-            	<div class="col-md-12 uploadedTitleImg">
-
-            	</div>
-            
-	            <div class="col-md-12">
-					<div class="input-group">
-  						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></span>
-  						<input type="text" class="form-control" placeholder="제목" aria-describedby="basic-addon1" name="mTitle">
-					</div>
-					
-					<div class="input-group">
-  						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-  						<input type="text" class="form-control" placeholder="작성자" aria-describedby="basic-addon1" name="writer">
-					</div>
-				</div>				
-				
-				<div class="col-md-12">	
-				
-					<textarea class="form-control" rows="40" placeholder="내용" name="mContent" id="nContent"></textarea>
-					
-				</div>
-				
-				<div class="col-md-12 text-center">
-			    											
-					<input type="submit" value="등록" class="text-center" />
-					
-	            </div>
+	            <form action="registerMagazine" method="post" id="registerForm" enctype="multipart/form-data">
 	            
-	        </form>
+	            	<div class="col-md-12 uploadedTitleImg">
+	
+	            	</div>
+	            
+		            <div class="col-md-12">
+						<div class="input-group">
+	  						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></span>
+	  						<input type="text" class="form-control" placeholder="제목" aria-describedby="basic-addon1" name="mTitle">
+						</div>
+						
+						<div class="input-group">
+	  						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+	  						<input type="text" class="form-control" placeholder="작성자" aria-describedby="basic-addon1" name="writer">
+						</div>
+					</div>				
+					
+					<div class="col-md-12">	
+					
+						<textarea class="form-control" rows="40" placeholder="내용" name="mContent" id="nContent"></textarea>
+						
+					</div>
+					
+					<div class="col-md-12 text-center">
+				    											
+						<input type="submit" value="등록" class="text-center" />
+						
+		            </div>
+		            
+		        </form>
 	                            
             </div>
        

@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>KoreaHipHop</title>
+<title>HipHopDX</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -25,18 +25,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function(){
+		
+		// 게시물 등록 버튼
 		$("#newBtn").on("click", function(){
 			self.location = "registerMagazine";
 		});
 		
+		// 게시물 검색 버튼
 		$("#searchBtn").on("click", function(){
 			self.location = "news"
-				+ "${pageMaker.makeQuery(1)}"
+				+ "${pageMaker.makeSearch(1)}"
 				+ "&searchType="
 				+ $("select option:selected").val()
 				+ "&keyword=" + encodeURIComponent($("#keywordInput").val());
 		});
-	});
+		
+	}); //end ready
 </script>
 
 <style type="text/css">
@@ -63,7 +67,7 @@ p { font-size: 1em;}
 	
 	<!-- /HEADER -->
 
-    <div class="container">
+	<div class="container">
 
         <div class="row">
         
@@ -77,29 +81,30 @@ p { font-size: 1em;}
         	<c:forEach items="${list }" var="magazineBoardVo">
         	<div class="nClick">
         	
-            <a href="/newsBoard/readNews${pageMaker.makeQuery(pageMaker.cri.page) }&newsNo=${newsBoardVo.newsNo }">
-            <div class="box">
-            	
-	            <div class="col-md-6">
-	            	<img class="img-responsive img-border-left" src="/displayFile?fileName=${magazineBoardVo.fullName }" alt="">
-	            </div>
-	            <div class="col-md-6">
-	            	<input type="hidden" value="${magazineBoardVo.newsNo }"/> 
-                    <p style="font-size: 1.25em;"><strong>${magazineBoardVo.nTitle }</strong></p>
-                    <div class="contentBox">
-                    	<p class="content">${magazineBoardVo.nContent }</p>
-                    </div>	            	
+	            <a href="/magazineBoard/readMagazine${pageMaker.makeQuery(pageMaker.cri.page) }&mNo=${magazineBoardVo.mNo }">
+	            <div class="box">
 	            	
-	            	조회수 ${magazineBoardVo.viewCnt } |
-	            	댓글 ${magazineBoardVo.replyCnt } |
-	            	추천 ${magazineBoardVo.recommend } |
-	            	작성자 ${magazineBoardVo.writer } |
-	            	작성일  <fmt:formatDate value="${magazineBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
-	            </div>
-	            	
-			</div>
-            </a>    
-                <!-- <div class="clearfix"></div> -->
+		            <div class="col-md-6">
+		            	<img class="img-responsive img-border-left" src="/displayFile?fileName=${magazineBoardVo.fullName }" alt="">
+		            </div>
+		            
+		            <div class="col-md-6">
+		            	<input type="hidden" value="${magazineBoardVo.mNo }"/> 
+	                    <p style="font-size: 1.25em;"><strong>${magazineBoardVo.mTitle }</strong></p>
+	                    <div class="contentBox">
+	                    	<p class="content">${magazineBoardVo.mContent }</p>
+	                    </div>	            	
+		            	
+		            	조회수 ${magazineBoardVo.viewCnt } |
+		            	댓글 ${magazineBoardVo.replyCnt } |
+		            	추천 ${magazineBoardVo.recommend } |
+		            	작성자 ${magazineBoardVo.writer } |
+		            	작성일  <fmt:formatDate value="${magazineBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
+		            	
+		            </div>
+		            	
+				</div>
+	            </a>
                 
             </div>
             </c:forEach>
@@ -137,7 +142,7 @@ p { font-size: 1em;}
 						
 						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
 							<li <c:out value="${pageMaker.cri.page == idx?'class = active' : '' }"/>>
-								<a href="news${pageMaker.makeQuery(idx) }">${idx }</a>
+								<a href="magazine${pageMaker.makeQuery(idx) }">${idx }</a>
 							</li>
 						</c:forEach>
 						

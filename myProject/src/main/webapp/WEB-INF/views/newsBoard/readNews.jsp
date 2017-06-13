@@ -16,7 +16,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>KoreaHipHop</title>
+<title>HipHopDX</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -30,6 +30,7 @@
 
 <!-- template -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<!-- 댓글 리스트 -->
 <script type="text/x-handlebars-template" id="template">
 	{{#each.}}
 		<div class="box replyLi" data-rNo={{rNo}} style="margin: 0px 20px 20px 20px;">
@@ -37,7 +38,7 @@
 			<div class="col-md-12">
 				<p>
 				{{replyer}}
-				{{prettifyDate regdate}}
+				{{prettifyDate regDate}}
 				</p>
 			</div>
 				
@@ -55,7 +56,7 @@
 		</div>
 	{{/each}}
 </script>
-
+<!-- 게시물 타이틀 이미지 -->
 <script type="text/x-handlebars-template" id="templateAttach">
 	
 	<img src="{{getLink}}" alt="templateAttach" data-src="{{fullName}}" />
@@ -81,6 +82,7 @@
 		});
 	});
 	
+	// 로그인한 사용자 댓글 수정/삭제 버튼	
 	Handlebars.registerHelper("eqReplyer", function(replyer, block){
 		var accum = "";
 		if(replyer == '${login.uId}') {
@@ -88,7 +90,8 @@
 		}
 		return accum;
 	});
-
+	
+	// ready
 	$(function(){		
 		$("#listNews").click(function(){
 			history.go(-1);
@@ -97,12 +100,14 @@
 			$("#formObj").submit(); */
 		});
 		
+		// 게시물 수정 버튼
 		$("#modify").click(function(){
 			$("#formObj").attr("action", "/newsBoard/modifyNews");
 			$("#formObj").attr("method", "get");
 			$("#formObj").submit();
 		});
 		
+		// 게시물 삭제 버튼
 		$("#remove").click(function(){
 			
 			var replyCnt = $("#newsDelReplyCnt").text().replace(/[^0-9]/g, "");
@@ -348,7 +353,7 @@ p img {}
 			<c:if test="${not empty login }">
 				<div class="box" style="margin: 0px 20px 20px 20px; padding: 0px;" >
 					<textarea class="form-control" rows="4" style="resize:none" placeholder="COMMENT" id="newReplyText"></textarea>
-					<input type="text" class="form-control" value="USER ID - ${login.uId }" id="newReplyWriter" readonly="readonly"/>
+					<input type="text" class="form-control" value="${login.uId }" id="newReplyWriter" readonly="readonly"/>
 					
 					<button type="submit" id="replyAddBtn">Post Comment</button>
 				</div>
@@ -374,10 +379,10 @@ p img {}
 				</ul>
 			</div>
 			
-    	</div> <!-- end row -->     	    	
+    	</div>
+    	<!-- end row -->     	    	
     	
-    </div>
-    
+    </div>    
     <!-- /.container -->
 	
 	

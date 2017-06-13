@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>KoreaHipHop</title>
+<title>HipHopDX</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -25,18 +25,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">	
 	$(function(){
+		
+		// 게시물 등록 버튼
 		$("#newBtn").on("click", function(){
 			self.location = "registerNews";
 		});
 		
+		// 게시물 검색 버튼
 		$("#searchBtn").on("click", function(){
 			self.location = "news"
-				+ "${pageMaker.makeQuery(1)}"
+				+ "${pageMaker.makeSearch(1)}"
 				+ "&searchType="
 				+ $("select option:selected").val()
 				+ "&keyword=" + encodeURIComponent($("#keywordInput").val());
 		});
-	});
+		
+	}); //end ready
 </script>
 
 <style type="text/css">
@@ -77,30 +81,30 @@ p { font-size: 1em;}
         	<c:forEach items="${list }" var="newsBoardVo">
         	<div class="nClick">
         	
-            <a href="/newsBoard/readNews${pageMaker.makeQuery(pageMaker.cri.page) }&newsNo=${newsBoardVo.newsNo }">
-            <div class="box">
-            	
-	            <div class="col-md-6">
-	            	<img class="img-responsive img-border-left" src="/displayFile?fileName=${newsBoardVo.fullName }" alt="">
-	            </div>
-	            <div class="col-md-6">
-	            	<input type="hidden" value="${newsBoardVo.newsNo }"/> 
-                    <p style="font-size: 1.25em;"><strong>${newsBoardVo.nTitle }</strong></p>
-                    <div class="contentBox">
-                    	<p class="content">${newsBoardVo.nContent }</p>
-                    </div>	            	
+	            <a href="/newsBoard/readNews${pageMaker.makeQuery(pageMaker.cri.page) }&newsNo=${newsBoardVo.newsNo }">
+	            <div class="box">
 	            	
-	            	조회수 ${newsBoardVo.viewCnt } |
-	            	댓글 ${newsBoardVo.replyCnt } |
-	            	추천 ${newsBoardVo.recommend } |
-	            	작성자 ${newsBoardVo.writer } |
-	            	작성일  <fmt:formatDate value="${newsBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
-	            </div>
-	            	
-			</div>
-            </a>    
-                <!-- <div class="clearfix"></div> -->
-                
+		            <div class="col-md-6">
+		            	<img class="img-responsive img-border-left" src="/displayFile?fileName=${newsBoardVo.fullName }" alt="">
+		            </div>
+		            
+		            <div class="col-md-6">
+		            	<input type="hidden" value="${newsBoardVo.newsNo }"/> 
+	                    <p style="font-size: 1.25em;"><strong>${newsBoardVo.nTitle }</strong></p>
+	                    <div class="contentBox">
+	                    	<p class="content">${newsBoardVo.nContent }</p>
+	                    </div>	            	
+		            	
+		            	조회수 ${newsBoardVo.viewCnt } |
+		            	댓글 ${newsBoardVo.replyCnt } |
+		            	추천 ${newsBoardVo.recommend } |
+		            	작성자 ${newsBoardVo.writer } |
+		            	작성일  <fmt:formatDate value="${newsBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
+		            </div>
+		            	
+				</div>
+	            </a>
+                <!-- <div class="clearfix"></div> -->                
             </div>
             </c:forEach>
 
@@ -109,12 +113,12 @@ p { font-size: 1em;}
 					<div class="btn-group form-inline">
 					<select name="searchType" id="searchType" class="form-control" style="width: 100px">
 						<option value="n" <c:out value="${cri.searchType == null?'selected' : ''}" />> ------------------------------------- </option>						
-						<option value="t" <c:out value="${cri.searchType eq 't'?'selected' : ''}" />> Title </option>
-						<option value="c" <c:out value="${cri.searchType eq 'c'?'selected' : ''}" />> Content </option>
-						<option value="w" <c:out value="${cri.searchType eq 'w'?'selected' : ''}" />> Writer </option>
-						<option value="tc" <c:out value="${cri.searchType eq 'tc'?'selected' : ''}" />> Title OR Content </option>
-						<option value="cw" <c:out value="${cri.searchType eq 'cw'?'selected' : ''}" />> Content OR Writer </option>
-						<option value="tcw" <c:out value="${cri.searchType eq 'tcw'?'selected' : ''}" />> Title OR Content OR Writer </option>
+						<option value="t" <c:out value="${cri.searchType eq 't'?'selected' : ''}" />> 제목 </option>
+						<option value="c" <c:out value="${cri.searchType eq 'c'?'selected' : ''}" />> 내용 </option>
+						<option value="w" <c:out value="${cri.searchType eq 'w'?'selected' : ''}" />> 작성자 </option>
+						<option value="tc" <c:out value="${cri.searchType eq 'tc'?'selected' : ''}" />> 제목+내용 </option>
+						<option value="cw" <c:out value="${cri.searchType eq 'cw'?'selected' : ''}" />> 내용+작성자 </option>
+						<option value="tcw" <c:out value="${cri.searchType eq 'tcw'?'selected' : ''}" />> 제목+내용+작성자 </option>
 					</select>
 					
 					<input type="text" class="form-control" name="keyword" id="keywordInput" value="${cri.keyword }" />

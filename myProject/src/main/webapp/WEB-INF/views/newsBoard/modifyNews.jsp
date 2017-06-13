@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>KoreaHipHop</title>
+<title>HipHopDX</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -25,6 +25,7 @@
 
 <!-- template -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<!-- 게시물 타이틀 이미지 뷰 -->
 <script type="text/x-handlebars-template" id="templateAttach">
 	
 	<div class="thumbnail text-center">
@@ -37,13 +38,13 @@
 								
 				<small class="btn btn-default btn-xs delbtn" data-src="{{fullName}}" data-img="{{titleImg}}">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</small>
-								
+				</small>								
 			</p>
 		</div>
 	</div>
 
 </script>
+<!-- AFTER 게시물 타이틀 이미지 뷰 -->
 <script type="text/x-handlebars-template" id="template">
 	<div class="thumbnail text-center">
 
@@ -55,8 +56,7 @@
 								
 				<small class="btn btn-default btn-xs delbtn" data-src="{{fullName}}" data-img="{{titleImg}}">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</small>
-								
+				</small>								
 			</p>
 		</div>
 	</div>
@@ -117,7 +117,7 @@
 
 	jQuery(function() {
 		// ckEditor 적용
-	  editor = CKEDITOR.replace( "nContent" , ckeditor_config );
+		editor = CKEDITOR.replace( "nContent" , ckeditor_config );
 	});
 	
 	$(function(){
@@ -311,11 +311,11 @@ p { font-size: 1em;}
 				<button type="button" class="btn btn-default" id="cancel">취소</button>
 		    		                
 	        </div>
-
+		
+		</form>
+		
     	</div>
-    	
-    	</form>    	
-    	
+
     </div>
     <!-- /.container -->
 
