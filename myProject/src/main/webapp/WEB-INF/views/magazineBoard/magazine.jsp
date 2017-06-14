@@ -137,7 +137,7 @@ p { font-size: 1em;}
 				<div class="text-center">
 					<ul class="pagination">
 						<c:if test="${pageMaker.prev }">
-							<li><a href="news${pageMaker.makeQuery(pageMaker.startPage - 1) }">&laquo;</a></li>
+							<li><a href="magazine${pageMaker.makeQuery(pageMaker.startPage - 1) }">&laquo;</a></li>
 						</c:if>
 						
 						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
@@ -147,7 +147,7 @@ p { font-size: 1em;}
 						</c:forEach>
 						
 						<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
-							<li><a href="news${pageMaker.makeQuery(pageMaker.endPage + 1) }">&raquo;</a></li>
+							<li><a href="magazine${pageMaker.makeQuery(pageMaker.endPage + 1) }">&raquo;</a></li>
 						</c:if>
 					</ul>
 				</div>

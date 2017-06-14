@@ -62,13 +62,13 @@ p { font-size: 1em;}
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img class="img-responsive img-full" src="../../resources/img/wiz_khalifa.jpeg" alt="">
+                                <img class="img-responsive img-full" src="../../resources/img/dumbfoundead.jpg" alt="">
                             </div>
                             <div class="item">
                                 <img class="img-responsive img-full" src="../../resources/img/tinashe.jpg" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-responsive img-full" src="../../resources/img/dumbfoundead.jpg" alt="">
+                                <img class="img-responsive img-full" src="../../resources/img/wiz_khalifa.jpeg" alt="">
                             </div>
                         </div>
 
@@ -80,7 +80,7 @@ p { font-size: 1em;}
                             <span class="icon-next"></span>
                         </a>
                     </div>
-                    <h2 class="brand-before">
+                    <!-- <h2 class="brand-before">
                         <small>Welcome to</small>
                     </h2>
                     <h1 class="brand-name">KOREA HIPHOP</h1>
@@ -89,7 +89,7 @@ p { font-size: 1em;}
                         <small>By
                             <strong>R.O.K Hiphop</strong>
                         </small>
-                    </h2>
+                    </h2> -->
                 </div>
             </div>
         </div>

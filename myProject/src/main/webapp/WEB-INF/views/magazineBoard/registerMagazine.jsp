@@ -213,7 +213,7 @@ a:hover {text-decoration: none; color: #980000;}
 					
 					<div class="col-md-12">	
 					
-						<textarea class="form-control" rows="40" placeholder="내용" name="mContent" id="nContent"></textarea>
+						<textarea class="form-control" rows="40" placeholder="내용" name="mContent" id="mContent"></textarea>
 						
 					</div>
 					

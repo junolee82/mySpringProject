@@ -158,4 +158,42 @@ foreign key(mNo) references magazine_board(mNo);
 drop table magazine_board;
 
 alter table news_board change ragDate regDate DATETIME not null default now();
+
+
+
+/* LIFESTYLE TABLE */
+create table lifestyle_board(
+	lNo INT not null AUTO_INCREMENT,
+	lTitle VARCHAR(200) not null,
+	lContent TEXT null,
+	writer VARCHAR(50) not null,
+	regDate DATETIME not null default now(),
+	viewCnt INT default 0,
+	replyCnt INT default 0,
+	recommend INT default 0,
+	PRIMARY KEY (lNo));
 	
+select * from lifestyle_board;
+
+/* LIFESTYLE REPLY */
+create table lifestyle_reply(
+	rNo INT not null AUTO_INCREMENT,
+	lNo INT not null default 0,
+	replyText VARCHAR(1000) not null,
+	replyer VARCHAR(50) not null,
+	regDate TIMESTAMP not null default now(),
+	updateDate TIMESTAMP not null default now(),
+	primary key(rNo));
+
+alter table lifestyle_reply add constraint
+foreign key(lNo) references lifestyle_board(lNo);
+
+/* ATTACH */
+create table lifestyle_attach(
+	fullName VARCHAR(150) not null,
+	lNo INT not null,
+	regDate TIMESTAMP default now(),
+	primary key(fullName));
+	
+alter table lifestyle_attach add constraint
+foreign key(lNo) references lifestyle_board(lNo);

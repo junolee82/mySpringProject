@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juno.mappers.LifestyleBoardMapper">
+ 
+	<select id="listLifestyle" resultType="LifestyleBoardVo">		
+		select a.lNo, a.lTitle, a.lContent, a.writer, a.regDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from lifestyle_board a
+		left join lifestyle_attach b
+		on(a.lNo = b.lNo)
+		where a.lNo > 0
+		<include refid="search" />
+		order by a.lNo desc, a.regDate desc limit #{pageStart}, #{perPageNum};
+	</select>
+	
+	<select id="listLifestyleCount" resultType="int">
+		select count(lNo)
+		from lifestyle_board
+		where lNo > 0
+		<include refid="search" />;
+	</select>
+	
+	<select id="read" resultType="LifestyleBoardVo">
+		select lNo, lTitle, lContent, writer, regDate, viewCnt, replyCnt, recommend
+		from lifestyle_board 
+		where lNo = #{lNo};
+	</select>
+	
+	<insert id="create">
+		insert into lifestyle_board(lTitle, lContent, writer)
+		values(#{lTitle}, #{lContent}, #{writer});
+	</insert>
+	
+	<update id="update">
+		update lifestyle_board 
+		set lTitle = #{lTitle}, lContent = #{lContent} 
+		where lNo = #{lNo};
+	</update>
+	
+	<delete id="delete">
+		delete from lifestyle_board where lNo = #{lNo};
+	</delete>
+	
+	<!-- Search & Paging -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				and lTitle like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and lContent like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				and lTitle like CONCAT('%', #{keyword}, '%') OR lContent like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				and lContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				and lTitle like CONCAT('%', #{keyword}, '%') OR lContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+		</if>
+	</sql>
+	
+	<!-- Transaction -->
+	<update id="updateReplyCnt">
+		update lifestyle_board set replyCnt = replyCnt + #{amount} where lNo = #{lNo};
+	</update>
+	
+	<update id="updateViewCnt">
+		update lifestyle_board set viewCnt = viewCnt + 1 where lNo = #{lNo};
+	</update>
+	
+	<!-- UPLOAD -->
+	<insert id="addAttach">
+		insert into lifestyle_attach(fullName, lNo) values(#{fullName}, LAST_INSERT_ID())
+	</insert>
+	
+	<select id="getAttach" resultType="string">
+		select fullName from lifestyle_attach where lNo = #{lNo} order by regDate
+	</select>
+	
+	<delete id="deleteAttach">
+		delete from lifestyle_attach where lNo = #{lNo}
+	</delete>
+	
+	<insert id="replaceAttach">
+		insert into lifestyle_attach(fullName, lNo) values(#{fullName}, #{lNo})
+	</insert>
+	
+</mapper>

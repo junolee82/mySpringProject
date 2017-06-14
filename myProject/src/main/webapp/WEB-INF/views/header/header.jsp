@@ -46,7 +46,7 @@
                         <a href="/magazineBoard/magazine">MAGAZINE</a>
                     </li>
                     <li>
-                        <a href="blog.html">LIFESTYLE</a>
+                        <a href="/lifestyleBoard/lifestyle">LIFESTYLE</a>
                     </li>
                     <li>
                         <a href="contact.html">VIDEO</a>
