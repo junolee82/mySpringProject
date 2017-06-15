@@ -69,18 +69,9 @@
 <script type="text/javascript" src="/resources/js/upload_data.js"></script>
 <script type="text/javascript">
 
-	var lNo = ${readLifestyle.lNo};
+	var vNo = ${readVideo.vNo};
 	
-	// 타이틀 이미지 GET
-	var template = Handlebars.compile($("#templateAttach").html());
-	
-	$.getJSON("/lifestyleBoard/getAttach/" + lNo, function(list){
-		$(list).each(function(){
-			var fileInfo = getFileInfoMod(this);
-			var html = template(fileInfo);
-			$(".readTitleImg").append(html);
-		});
-	});
+
 	
 	$(function(){
 		$("#cancel").click(function(){
@@ -115,7 +106,7 @@
 	var editor = null;
 
 	jQuery(function() {	// ckEditor 적용
-		editor = CKEDITOR.replace( "lContent" , ckeditor_config );
+		editor = CKEDITOR.replace( "vContent" , ckeditor_config );
 	});
 	
 	$(function(){
@@ -234,9 +225,9 @@ p { font-size: 1em;}
 
         <div class="row">
         
-        <form action="modifyLifestyle" method="post" id="formObj" enctype="multipart/form-data">
+        <form action="modifyVideo" method="post" id="formObj" enctype="multipart/form-data">
 
-				<input type="hidden" name="lNo" value="${readLifestyle.lNo}"/>
+				<input type="hidden" name="vNo" value="${readVideo.vNo}"/>
 						
 				<input type="hidden" name="page" value="${cri.page }" />
 				<input type="hidden" name="perPageNum" value="${cri.perPageNum }" />
@@ -246,9 +237,9 @@ p { font-size: 1em;}
         
         	<div class="box">
         		<div class="col-lg-12">
-        			<input type="text" class="form-control" value="${readLifestyle.lTitle }" name="lTitle"/>
+        			<input type="text" class="form-control" value="${readVideo.vTitle }" name="vTitle"/>
 					<div style="float: right;">
-						<fmt:formatDate value="${readLifestyle.regDate }" pattern="yyyy-MM-dd HH:mm"/>
+						<fmt:formatDate value="${readVideo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
 					</div>
         		</div>
         	</div>
@@ -256,18 +247,18 @@ p { font-size: 1em;}
         	<div class="box">
         		<div class="col-lg-12">
         			<div>
-        				<strong> BY ${readLifestyle.writer }</strong>
+        				<strong> BY ${readVideo.writer }</strong>
         				<div style="float: right;">
-        					<span>조회수  ${readLifestyle.viewCnt }</span> 
-        					<span>추천수 ${readLifestyle.recommend }</span>
-        					<span>댓글 ${readLifestyle.replyCnt }</span>
+        					<span>조회수  ${readVideo.viewCnt }</span> 
+        					<span>추천수 ${readVideo.recommend }</span>
+        					<span>댓글 ${readVideo.replyCnt }</span>
         				</div>
 
         			</div>
         		</div>
         	</div>
 
-			<div class="box">
+			<!-- <div class="box">
 			   	<div class="col-md-12">
 
 			    	<div class="fileDrop">
@@ -286,13 +277,13 @@ p { font-size: 1em;}
 				<div class="col-md-12 uploadedTitleImg">
 
             	</div>
-			</div>
+			</div> -->
 
 	        <div class="box">
 		            
 		    	<div class="col-md-12">
-		    		<h4>${readLifestyle.lTitle }</h4><br>
-		    		<textarea class="form-control" rows="50" placeholder="내용" name="lContent">${fn:replace(readLifestyle.lContent, cn, br)}</textarea>		    		
+		    		<h4>${readVideo.vTitle }</h4><br>
+		    		<textarea class="form-control" rows="50" placeholder="내용" name="vContent">${fn:replace(readVideo.vContent, cn, br)}</textarea>		    		
 		    		<br>
 		    		<br>
 		    		<br>		    		

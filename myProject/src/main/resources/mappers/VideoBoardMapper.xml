@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juno.mappers.VideoBoardMapper">
+
+	<select id="listVideo" resultType="VideoBoardVo">		
+		select a.vNo, a.vTitle, a.vContent, a.writer, a.regDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from video_board a
+		left join video_attach b
+		on(a.vNo = b.vNo)
+		where a.vNo > 0
+		<include refid="search" />
+		order by a.vNo desc, a.regDate desc limit #{pageStart}, #{perPageNum};
+	</select>
+	
+	<select id="listVideoCount" resultType="int">
+		select count(vNo)
+		from video_board
+		where vNo > 0
+		<include refid="search" />;
+	</select>
+	
+	<select id="read" resultType="VideoBoardVo">
+		select vNo, vTitle, vContent, writer, regDate, viewCnt, replyCnt, recommend
+		from video_board 
+		where vNo = #{vNo};
+	</select>
+	
+	<insert id="create">
+		insert into video_board(vTitle, vContent, writer)
+		values(#{vTitle}, #{vContent}, #{writer});
+	</insert>
+	
+	<update id="update">
+		update video_board 
+		set vTitle = #{vTitle}, vContent = #{vContent} 
+		where vNo = #{vNo};
+	</update>
+	
+	<delete id="delete">
+		delete from video_board where vNo = #{vNo};
+	</delete>
+	
+	<!-- Search & Paging -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				and vTitle like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and vContent like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				and vTitle like CONCAT('%', #{keyword}, '%') OR vContent like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				and vContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				and vTitle like CONCAT('%', #{keyword}, '%') OR vContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+		</if>
+	</sql>
+	
+	<!-- Transaction -->
+	<update id="updateReplyCnt">
+		update video_board set replyCnt = replyCnt + #{amount} where vNo = #{vNo};
+	</update>
+	
+	<update id="updateViewCnt">
+		update video_board set viewCnt = viewCnt + 1 where vNo = #{vNo};
+	</update>
+	
+	<!-- UPLOAD -->
+	<insert id="addAttach">
+		insert into video_attach(fullName, vNo) values(#{fullName}, LAST_INSERT_ID())
+	</insert>
+	
+	<select id="getAttach" resultType="string">
+		select fullName from video_attach where vNo = #{vNo} order by regDate
+	</select>
+	
+	<delete id="deleteAttach">
+		delete from video_attach where vNo = #{vNo}
+	</delete>
+	
+	<insert id="replaceAttach">
+		insert into video_attach(fullName, vNo) values(#{fullName}, #{vNo})
+	</insert>
+	
+</mapper>

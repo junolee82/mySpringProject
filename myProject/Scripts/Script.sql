@@ -197,3 +197,83 @@ create table lifestyle_attach(
 	
 alter table lifestyle_attach add constraint
 foreign key(lNo) references lifestyle_board(lNo);
+
+
+
+/* VIDEO TABLE */
+create table video_board(
+	vNo INT not null AUTO_INCREMENT,
+	vTitle VARCHAR(200) not null,
+	vContent TEXT null,
+	writer VARCHAR(50) not null,
+	regDate DATETIME not null default now(),
+	viewCnt INT default 0,
+	replyCnt INT default 0,
+	recommend INT default 0,
+	PRIMARY KEY (vNo));
+	
+select * from video_board;
+
+/* VIDEO REPLY */
+create table video_reply(
+	rNo INT not null AUTO_INCREMENT,
+	vNo INT not null default 0,
+	replyText VARCHAR(1000) not null,
+	replyer VARCHAR(50) not null,
+	regDate TIMESTAMP not null default now(),
+	updateDate TIMESTAMP not null default now(),
+	primary key(rNo));
+
+alter table video_reply add constraint
+foreign key(vNo) references video_board(vNo);
+
+/* ATTACH */
+create table video_attach(
+	fullName VARCHAR(150) not null,
+	vNo INT not null,
+	regDate TIMESTAMP default now(),
+	primary key(fullName));
+	
+alter table video_attach add constraint
+foreign key(vNo) references video_board(vNo);
+
+
+
+/* COMMUNITY TABLE */
+create table community_board(
+	cNo INT not null AUTO_INCREMENT,
+	cTitle VARCHAR(200) not null,
+	cContent TEXT null,
+	writer VARCHAR(50) not null,
+	regDate DATETIME not null default now(),
+	viewCnt INT default 0,
+	replyCnt INT default 0,
+	recommend INT default 0,
+	PRIMARY KEY (cNo));
+	
+select * from community_board;
+
+/* COMMUNITY REPLY */
+create table community_reply(
+	rNo INT not null AUTO_INCREMENT,
+	cNo INT not null default 0,
+	replyText VARCHAR(1000) not null,
+	replyer VARCHAR(50) not null,
+	regDate TIMESTAMP not null default now(),
+	updateDate TIMESTAMP not null default now(),
+	primary key(rNo));
+
+alter table community_reply add constraint
+foreign key(cNo) references community_board(cNo);
+
+/* ATTACH */
+create table community_attach(
+	fullName VARCHAR(150) not null,
+	cNo INT not null,
+	regDate TIMESTAMP default now(),
+	primary key(fullName));
+	
+alter table community_attach add constraint
+foreign key(cNo) references community_board(cNo);
+
+

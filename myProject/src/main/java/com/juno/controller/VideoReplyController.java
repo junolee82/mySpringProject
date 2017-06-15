@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.juno.domain.Criteria;
-import com.juno.domain.LifestyleReplyVo;
 import com.juno.domain.PageMaker;
-import com.juno.service.ReplyService;
+import com.juno.domain.VideoReplyVo;
+import com.juno.service.VideoReplyService;
 
 @RestController
-@RequestMapping("/lReplies")
-public class LifestyleReplyController {
+@RequestMapping("/vReplies")
+public class VideoReplyController {
 
 	@Inject
-	private ReplyService<LifestyleReplyVo> service;
+	private VideoReplyService<VideoReplyVo> service;
 
-	@RequestMapping(value = "/{lNo}/{page}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> listReply(@PathVariable("lNo") int lNo, @PathVariable("page") int page) {
+	@RequestMapping(value = "/{vNo}/{page}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listReply(@PathVariable("vNo") int vNo, @PathVariable("page") int page) {
 		ResponseEntity<Map<String, Object>> entity = null;
 
 		Criteria cri = new Criteria();
@@ -38,10 +38,10 @@ public class LifestyleReplyController {
 
 		try {
 			Map<String, Object> paramMap = new HashMap<>();
-			List<LifestyleReplyVo> vo = service.listReply(lNo, cri);
+			List<VideoReplyVo> vo = service.listReply(vNo, cri);
 			paramMap.put("listReply", vo);
 
-			int replyCount = service.count(lNo);
+			int replyCount = service.count(vNo);
 			pageMaker.setTotalCount(replyCount);
 			paramMap.put("pageMaker", pageMaker);
 
@@ -56,7 +56,7 @@ public class LifestyleReplyController {
 
 	// registerReply
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<String> registerReply(@RequestBody LifestyleReplyVo vo) {
+	public ResponseEntity<String> registerReply(@RequestBody VideoReplyVo vo) {
 		ResponseEntity<String> entity = null;
 
 		try {
@@ -66,13 +66,12 @@ public class LifestyleReplyController {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-
 		return entity;
 	}
 
 	// modifyReply
 	@RequestMapping(value = "/{rNo}", method = { RequestMethod.PUT, RequestMethod.PATCH })
-	public ResponseEntity<String> modifyReply(@PathVariable("rNo") int rNo, @RequestBody LifestyleReplyVo vo) {
+	public ResponseEntity<String> modifyReply(@PathVariable("rNo") int rNo, @RequestBody VideoReplyVo vo) {
 		ResponseEntity<String> entity = null;
 
 		try {
@@ -102,4 +101,5 @@ public class LifestyleReplyController {
 
 		return entity;
 	}
+
 }

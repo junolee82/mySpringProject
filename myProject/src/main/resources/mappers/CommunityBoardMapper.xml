@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juno.mappers.CommunityBoardMapper">
+
+	<select id="listCommunity" resultType="CommunityBoardVo">		
+		select a.cNo, a.cTitle, a.cContent, a.writer, a.regDate, a.viewCnt, a.replyCnt, a.recommend, b.fullName from community_board a
+		left join community_attach b
+		on(a.cNo = b.cNo)
+		where a.cNo > 0
+		<include refid="search" />
+		order by a.cNo desc, a.regDate desc limit #{pageStart}, #{perPageNum};
+	</select>
+	
+	<select id="listCommunityCount" resultType="int">
+		select count(cNo)
+		from community_board
+		where cNo > 0
+		<include refid="search" />;
+	</select>
+	
+	<select id="read" resultType="CommunityBoardVo">
+		select cNo, cTitle, cContent, writer, regDate, viewCnt, replyCnt, recommend
+		from community_board 
+		where cNo = #{cNo};
+	</select>
+	
+	<insert id="create">
+		insert into community_board(cTitle, cContent, writer)
+		values(#{cTitle}, #{cContent}, #{writer});
+	</insert>
+	
+	<update id="update">
+		update community_board 
+		set cTitle = #{cTitle}, cContent = #{cContent} 
+		where cNo = #{cNo};
+	</update>
+	
+	<delete id="delete">
+		delete from community_board where cNo = #{cNo};
+	</delete>
+	
+	<!-- Search & Paging -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				and cTitle like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and cContent like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				and cTitle like CONCAT('%', #{keyword}, '%') OR cContent like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				and cContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				and cTitle like CONCAT('%', #{keyword}, '%') OR cContent like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%', #{keyword}, '%')
+			</if>
+		</if>
+	</sql>
+	
+	<!-- Transaction -->
+	<update id="updateReplyCnt">
+		update community_board set replyCnt = replyCnt + #{amount} where cNo = #{cNo};
+	</update>
+	
+	<update id="updateViewCnt">
+		update community_board set viewCnt = viewCnt + 1 where cNo = #{cNo};
+	</update>
+	
+	<!-- UPLOAD -->
+	<insert id="addAttach">
+		insert into community_attach(fullName, cNo) values(#{fullName}, LAST_INSERT_ID())
+	</insert>
+	
+	<select id="getAttach" resultType="string">
+		select fullName from community_attach where cNo = #{cNo} order by regDate
+	</select>
+	
+	<delete id="deleteAttach">
+		delete from community_attach where cNo = #{cNo}
+	</delete>
+	
+	<insert id="replaceAttach">
+		insert into community_attach(fullName, cNo) values(#{fullName}, #{cNo})
+	</insert>
+	
+</mapper>

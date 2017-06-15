@@ -49,10 +49,10 @@
                         <a href="/lifestyleBoard/lifestyle">LIFESTYLE</a>
                     </li>
                     <li>
-                        <a href="contact.html">VIDEO</a>
+                        <a href="/videoBoard/video">VIDEO</a>
                     </li>
                     <li>
-                        <a href="contact.html">COMMUNITY</a>
+                        <a href="/communityBoard/community">COMMUNITY</a>
                     </li>
                 </ul>
             </div>

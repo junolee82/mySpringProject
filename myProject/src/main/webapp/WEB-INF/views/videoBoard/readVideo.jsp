@@ -69,18 +69,18 @@
 <script type="text/javascript" src="/resources/js/upload.js"></script>
 <script type="text/javascript">
 	
-	var lNo = ${readLifestyle.lNo};
+	var vNo = ${readVideo.vNo};
 	
 	// 게시물 타이틀 이미지 GET
-	var template = Handlebars.compile($("#templateAttach").html());
+	/* var template = Handlebars.compile($("#templateAttach").html());
 	
-	$.getJSON("/lifestyleBoard/getAttach/" + lNo, function(list){
+	$.getJSON("/videoBoard/getAttach/" + vNo, function(list){
 		$(list).each(function(){
 			var fileInfo = getFileInfoMod(this);
 			var html = template(fileInfo);
 			$(".readTitleImg").append(html);
 		});
-	});
+	}); */
 	
 	// 로그인한 사용자 댓글 수정/삭제 버튼
 	Handlebars.registerHelper("eqReplyer", function(replyer, block){
@@ -99,7 +99,7 @@
 		
 		// 게시물 수정 버튼
 		$("#modify").click(function(){
-			$("#formObj").attr("action", "/lifestyleBoard/modifyLifestyle");
+			$("#formObj").attr("action", "/videoBoard/modifyVideo");
 			$("#formObj").attr("method", "get");
 			$("#formObj").submit();
 		});
@@ -125,20 +125,20 @@
 				});
 			}
 			
-			$("#formObj").attr("action", "/lifestyleBoard/removeLifestyle");
+			$("#formObj").attr("action", "/videoBoard/removeVideo");
 			$("#formObj").submit();
 		});
 		
 		
 		
 		/* LIST REPLY */
-		getPage("/lReplies/" + lNo + "/1");
+		getPage("/vReplies/" + vNo + "/1");
 		
 		/* 댓글 페이징 이벤트 */
 		$(".pagination").on("click", "li a", function(event) {
 			event.preventDefault();
 			replyPage = $(this).attr("href");
-			getPage("/lReplies/" + lNo + "/" + replyPage);
+			getPage("/vReplies/" + vNo + "/" + replyPage);
 		});
 		
 		/* 댓글 등록 */
@@ -150,14 +150,14 @@
 			
 			$.ajax({
 				type : "post",
-				url : "/lReplies",
+				url : "/vReplies",
 				headers : {
 					"Content-Type" : "application/json",
 					"X-HTTP-Method-Override" : "POST"
 				},
 				dataType : "text",
 				data : JSON.stringify({
-					lNo : lNo,
+					vNo : vNo,
 					replyer : replyer,
 					replyText : replyText
 				}),
@@ -165,7 +165,7 @@
 					if(result == "SUCCESS") {
 						alert("등록 되었습니다.");
 						replyPage = 1;
-						getPage("/lReplies/" + lNo + "/" + replyPage);
+						getPage("/vReplies/" + vNo + "/" + replyPage);
 						replyerObj.val("");
 						replyTextObj.val("");
 					}
@@ -188,7 +188,7 @@
 			
 			$.ajax({
 				type : "put",
-				url : "/lReplies/" + rNo,
+				url : "/vReplies/" + rNo,
 				headers : {
 					"Content-Type" : "application/json",
 					"X-HTTP-Method-Override" : "PUT"
@@ -201,7 +201,7 @@
 					console.log("result: " + result);
 					if(result == "SUCCESS") {
 						alert("수정 되었습니다");
-						getPage("/lReplies/" + lNo + "/" + replyPage);
+						getPage("/vReplies/" + vNo + "/" + replyPage);
 						$('#modifyModal').modal("hide");
 					}
 				}
@@ -215,7 +215,7 @@
 			
 			$.ajax({
 				type : "delete",
-				url : "/lReplies/" + rNo,
+				url : "/vReplies/" + rNo,
 				headers : {
 					"Content-Type" : "application/json",
 					"X-HTTP-Method-Override" : "DELETE"
@@ -225,7 +225,7 @@
 					console.log("result: " + result);
 					if(result == "SUCCESS") {
 						alert("삭제 되었습니다.");
-						getPage("/lReplies/" + lNo + "/" + replyPage);
+						getPage("/vReplies/" + vNo + "/" + replyPage);
 						$('#modifyModal').modal("hide");
 					}
 				}
@@ -254,7 +254,6 @@ a:hover {text-decoration: none; color: #980000;}
 p { font-size: 1em;}
 p img {}
 .form-control[readonly] {background-color: white;}
-.readTitleImg img {max-width: 1020px;}
 </style>
 
 </head>
@@ -272,7 +271,7 @@ p img {}
         	
 				<!-- form -->
 				<form method="post" id="formObj">
-					<input type="hidden" name="lNo" value="${readLifestyle.lNo}" readonly="readonly" />
+					<input type="hidden" name="vNo" value="${readVideo.vNo}" readonly="readonly" />
 					<input type="hidden" name="page" value="${cri.page }" readonly="readonly" />
 					<input type="hidden" name="perpageNum" value="${cri.perPageNum }" readonly="readonly" />
 					<!-- searchCriteria -->
@@ -284,9 +283,9 @@ p img {}
         		<div class="col-lg-12">
         			<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
         			&nbsp;
-        			<strong> ${readLifestyle.lTitle }</strong>
+        			<strong> ${readVideo.vTitle }</strong>
 					<div style="float: right;">
-						<fmt:formatDate value="${readLifestyle.regDate }" pattern="yyyy-MM-dd HH:mm"/>
+						<fmt:formatDate value="${readVideo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
 					</div>
         		</div>
         	</div>
@@ -294,11 +293,11 @@ p img {}
         	<div class="box">
         		<div class="col-lg-12">
         			<div>
-        				<strong> BY ${readLifestyle.writer }</strong>
+        				<strong> BY ${readVideo.writer }</strong>
         				<div style="float: right;">
-        					<span>조회수  ${readLifestyle.viewCnt }</span> 
-        					<span>추천수 ${readLifestyle.recommend }</span>
-        					<span>댓글 <span id="newsDelReplyCnt">${readLifestyle.replyCnt }</span></span>
+        					<span>조회수  ${readVideo.viewCnt }</span> 
+        					<span>추천수 ${readVideo.recommend }</span>
+        					<span>댓글 <span id="newsDelReplyCnt">${readVideo.replyCnt }</span></span>
         				</div>
 
         			</div>
@@ -313,8 +312,8 @@ p img {}
 		    			
 		    		</div>
 		    	
-		    		<h4>${readLifestyle.lTitle }</h4><br>
-		    		${fn:replace(readLifestyle.lContent, cn, br)}
+		    		<h4>${readVideo.vTitle }</h4><br>
+		    		${fn:replace(readVideo.vContent, cn, br)}
 		    		<br>
 		    		<br>
 		    		<br>

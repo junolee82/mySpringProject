@@ -87,7 +87,7 @@ public class LifestyleBoardDaoImpl implements BoardDao<LifestyleBoardVo> {
 		paramMap.put("fullName", fullName);
 		paramMap.put("lNo", lNo);
 
-		session.update(namespace + ".repaceAttach", paramMap);
+		session.update(namespace + ".replaceAttach", paramMap);
 	}
 
 }

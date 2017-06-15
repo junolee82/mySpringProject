@@ -28,12 +28,12 @@
 		
 		// 게시물 등록 버튼
 		$("#newBtn").on("click", function(){
-			self.location = "registerMagazine";
+			self.location = "registerVideo";
 		});
 		
 		// 게시물 검색 버튼
 		$("#searchBtn").on("click", function(){
-			self.location = "magazine"
+			self.location = "video"
 				+ "${pageMaker.makeSearch(1)}"
 				+ "&searchType="
 				+ $("select option:selected").val()
@@ -74,40 +74,39 @@ p { font-size: 1em;}
         	<div class="box">
         		<div class="col-lg-12">
         			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-        			<strong> MAGAZINE</strong>
+        			<strong> VIDEO</strong>
         		</div>
         	</div>
-        	
-        	<c:forEach items="${list }" var="magazineBoardVo">
-        	<div class="nClick">
-        	
-	            <a href="/magazineBoard/readMagazine${pageMaker.makeQuery(pageMaker.cri.page) }&mNo=${magazineBoardVo.mNo }">
-	            <div class="box">
-	            	
-		            <div class="col-md-6">
-		            	<img class="img-responsive img-border-left" src="/displayFile?fileName=${magazineBoardVo.fullName }" alt="">
-		            </div>
-		            
-		            <div class="col-md-6">
-		            	<input type="hidden" value="${magazineBoardVo.mNo }"/> 
-	                    <p style="font-size: 1.25em;"><strong>${magazineBoardVo.mTitle }</strong></p>
-	                    <div class="contentBox">
-	                    	<p class="content">${magazineBoardVo.mContent }</p>
-	                    </div>	            	
-		            	
-		            	조회수 ${magazineBoardVo.viewCnt } |
-		            	댓글 ${magazineBoardVo.replyCnt } |
-		            	추천 ${magazineBoardVo.recommend } |
-		            	작성자 ${magazineBoardVo.writer } |
-		            	작성일  <fmt:formatDate value="${magazineBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/>
-		            	
-		            </div>
-		            	
-				</div>
-	            </a>
-                
-            </div>
-            </c:forEach>
+
+			<div class="box">
+				<table class="table table-hover">
+					<thead class="text-center">
+						<tr>
+							<td><strong>번호</strong></td>
+							<td><strong>제목</strong></td>
+							<td><strong>추천</strong></td>
+							<td><strong>조회</strong></td>
+							<td><strong>날짜</strong></td>
+						</tr>
+					</thead>
+					
+					<c:forEach items="${list }" var="videoBoardVo">
+					<tr>
+ 					 	<td class="text-center">${videoBoardVo.vNo }</td>
+ 					 	<td style="padding-left: 30px;">
+ 					 		<a href="/videoBoard/readVideo${pageMaker.makeQuery(pageMaker.cri.page) }&vNo=${videoBoardVo.vNo }">
+ 					 		${videoBoardVo.vTitle }
+ 					 		</a>
+ 					 		&nbsp;&nbsp;&nbsp;<span class="badge">${videoBoardVo.replyCnt }</span>
+ 					 	</td>
+ 					 	<td class="text-center">${videoBoardVo.recommend }</td>
+ 					 	<td class="text-center">${videoBoardVo.viewCnt }</td>
+ 					 	<td class="text-center"><fmt:formatDate value="${videoBoardVo.regDate }" pattern="yyyy-MM-dd HH:mm"/></td>
+ 					 </tr>
+					</c:forEach>
+ 					 
+				</table>
+			</div>
 
 				<!-- Search -->
 				<div class="text-left" style="margin-bottom: 0px; margin-top: 24px;">
@@ -137,17 +136,17 @@ p { font-size: 1em;}
 				<div class="text-center">
 					<ul class="pagination">
 						<c:if test="${pageMaker.prev }">
-							<li><a href="magazine${pageMaker.makeQuery(pageMaker.startPage - 1) }">&laquo;</a></li>
+							<li><a href="video${pageMaker.makeQuery(pageMaker.startPage - 1) }">&laquo;</a></li>
 						</c:if>
 						
 						<c:forEach var="idx" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
 							<li <c:out value="${pageMaker.cri.page == idx?'class = active' : '' }"/>>
-								<a href="magazine${pageMaker.makeQuery(idx) }">${idx }</a>
+								<a href="video${pageMaker.makeQuery(idx) }">${idx }</a>
 							</li>
 						</c:forEach>
 						
 						<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
-							<li><a href="magazine${pageMaker.makeQuery(pageMaker.endPage + 1) }">&raquo;</a></li>
+							<li><a href="video${pageMaker.makeQuery(pageMaker.endPage + 1) }">&raquo;</a></li>
 						</c:if>
 					</ul>
 				</div>
