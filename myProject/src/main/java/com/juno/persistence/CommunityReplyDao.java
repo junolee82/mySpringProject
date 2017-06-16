@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.juno.domain.Criteria;
 
-public interface VideoReplyDao<E> {
-	public List<E> listReply(int vNo, Criteria cri) throws Exception;
+public interface CommunityReplyDao<E> {
+	public List<E> listReply(int cNo, Criteria cri) throws Exception;
 
-	public int count(int vNo) throws Exception;
+	public int count(int cNo) throws Exception;
 
 	public void create(E vo) throws Exception;
 
@@ -15,6 +15,6 @@ public interface VideoReplyDao<E> {
 
 	public void delete(int rNo) throws Exception;
 
-	public int getNo(int vNo) throws Exception;
-	
+	public int getNo(int cNo) throws Exception;
+
 }

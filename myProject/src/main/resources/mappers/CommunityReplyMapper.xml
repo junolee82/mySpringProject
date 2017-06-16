@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juno.mappers.CommunityReplyMapper">
+
+	<!-- Paging -->
+	<select id="listCommunityReply" resultType="CommunityReplyVo">
+		select * from community_reply
+		where cNo = #{cNo}
+		order by rNo desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(cNo) from community_reply where cNo = #{cNo}
+	</select>
+	
+	<insert id="create">
+		insert into community_reply(cNo, replyText, replyer)
+		values(#{cNo}, #{replyText}, #{replyer})
+	</insert>
+	
+	<update id="update">
+		update community_reply set replyText = #{replyText}, updatedate = now() where rNo = #{rNo}
+	</update>
+	
+	<delete id="delete">
+		delete from community_reply where rNo = #{rNo}
+	</delete>
+	
+	<!-- Transaction -->
+	<select id="getcNo" resultType="int">
+		select cNo from community_reply where rNo = #{rNo};
+	</select>	
+	
+</mapper>
