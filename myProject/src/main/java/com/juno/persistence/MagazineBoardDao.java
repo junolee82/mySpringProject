@@ -25,6 +25,9 @@ public interface MagazineBoardDao {
 	// viewCnt
 	public void updateViewCnt(int mNo) throws Exception;
 	
+	// recommend
+	public void updateRecommend(int mNo) throws Exception;
+	
 	// attach
 	public void addAttach(String fullName) throws Exception;
 	

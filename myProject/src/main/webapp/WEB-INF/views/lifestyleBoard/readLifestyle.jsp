@@ -19,7 +19,7 @@
 <title>HipHopDX</title>
 
 <!-- Bootstrap Core CSS -->
-<link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/bootstrap/css/bootstrap.min.css?ver=1" rel="stylesheet" type="text/css" />
 
 <!-- Custom CSS -->
 <link href="../../resources/bootstrap/css/MyPage.css" rel="stylesheet">

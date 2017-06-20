@@ -91,4 +91,9 @@ public class MagazineBoardDaoImpl implements MagazineBoardDao {
 		session.update(namespace + ".replaceAttach", paramMap);
 	}
 
+	@Override
+	public void updateRecommend(int mNo) throws Exception {
+		session.update(namespace + ".updateRecommend", mNo);
+	}
+
 }

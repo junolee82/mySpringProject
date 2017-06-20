@@ -97,5 +97,12 @@ public class MagazineBoardController {
 	public List<String> getAttach(@PathVariable("mNo") int mNo) throws Exception {
 		return service.getAttach(mNo);
 	}
+	
+	// updateRecommend
+	@RequestMapping("updateRecommend/{mNo}")
+	@ResponseBody
+	public void updateRecommend(@PathVariable("mNo") int mNo) throws Exception {
+		service.recommend(mNo);
+	}	
 
 }

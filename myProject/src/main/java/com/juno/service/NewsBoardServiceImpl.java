@@ -96,4 +96,9 @@ public class NewsBoardServiceImpl implements NewsBoardService {
 		return dao.getAttach(newsNo);
 	}
 
+	@Override
+	public void recommend(int newsNo) throws Exception {
+		dao.updateRecommend(newsNo);
+	}
+
 }

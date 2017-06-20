@@ -17,8 +17,11 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<!-- <property name="url" value="jdbc:log4jdbc:mysql://khalifa.cafe24.com/khalifa" /> -->
 		<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/korea_hiphop" />
+		<!-- <property name="username" value="khalifa" /> -->
 		<property name="username" value="root" />
+		<!-- <property name="password" value="junolee12!@" /> -->
 		<property name="password" value="rootroot" />
 	</bean>
 

@@ -12,7 +12,20 @@ create table news_board(
 	recommend INT default 0,
 	thumbnailImg VARCHAR(200),
 	PRIMARY KEY (newsNo));
-
+	
+CREATE TABLE  `khalifa`.`news_board` (
+`newsNo` INT NOT NULL AUTO_INCREMENT ,
+`nTitle` VARCHAR( 200 ) NOT NULL ,
+`nContent` TEXT NULL ,
+`writer` VARCHAR( 50 ) NOT NULL ,
+`regDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+`viewCnt` INT UNSIGNED ZEROFILL NOT NULL ,
+`replyCnt` INT UNSIGNED ZEROFILL NOT NULL ,
+`recommend` INT UNSIGNED ZEROFILL NOT NULL ,
+`thumbnailImg` VARCHAR( 200 ) NOT NULL ,
+PRIMARY KEY (  `newsNo` )
+) ENGINE = MYISAM
+	
 select * from news_board;
 
 insert into news_board(nTitle, nContent, writer) values('제목입니다.', '내용입니다.', '이준호');

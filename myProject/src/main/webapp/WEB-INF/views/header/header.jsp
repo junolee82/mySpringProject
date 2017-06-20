@@ -34,7 +34,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Business Casual</a>
+                <a class="navbar-brand" href="/main">HipHopDX</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -54,6 +54,16 @@
                     <li>
                         <a href="/communityBoard/community">COMMUNITY</a>
                     </li>
+                    <%-- <li>
+						<c:choose>
+				    		<c:when test="${empty login }">
+				    		<a href="/user/login">LOGIN</a>
+				    		</c:when>
+				    		<c:when test="${not empty login }">
+				    		<a href="/user/logout">LOGOUT</a>
+				    		</c:when>
+				    	</c:choose>
+                    </li> --%>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

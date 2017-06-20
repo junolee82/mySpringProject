@@ -6,7 +6,7 @@
 
 	<!-- Paging -->
 	<select id="listLifestyleReply" resultType="LifestyleReplyVo">
-		select * from lifestyle_reply
+		select rNo, lNo, replyText, replyer, regDate from lifestyle_reply
 		where lNo = #{lNo}
 		order by rNo desc
 		limit #{cri.pageStart}, #{cri.perPageNum}

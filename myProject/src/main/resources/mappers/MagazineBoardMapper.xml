@@ -74,6 +74,10 @@
 		update magazine_board set viewCnt = viewCnt + 1 where mNo = #{mNo};
 	</update>
 	
+	<update id="updateRecommend">
+		update magazine_board set recommend = recommend + 1 where mNo = #{mNo}
+	</update>
+	
 	<!-- UPLOAD -->
 	<insert id="addAttach">
 		insert into magazine_attach(fullName, mNo) values(#{fullName}, LAST_INSERT_ID())

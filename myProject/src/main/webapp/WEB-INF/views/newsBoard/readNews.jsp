@@ -59,7 +59,7 @@
 <!-- 게시물 타이틀 이미지 -->
 <script type="text/x-handlebars-template" id="templateAttach">
 	
-	<img src="{{getLink}}" alt="templateAttach" data-src="{{fullName}}" />
+	<img style="width: 100%" src="{{getLink}}" alt="templateAttach" data-src="{{fullName}}" />
 
 </script>
 
@@ -235,6 +235,16 @@
 			});
 		});
 		
+		// 게시글 추천 버튼
+		$("#recommend").on("click", function(){
+			if(confirm("게시글을 추천하시겠습니까?")) {
+				$.getJSON("/newsBoard/updateRecommend/" + newsNo, function(){});
+				alert("게시글을 추천하였습니다.");				
+			} else {
+				return;
+			}			
+		});
+		
 		
 		
 	}); //end ready
@@ -252,6 +262,8 @@ input[type=text] { border: none; box-shadow: none; padding: 15px 20px; margin: 1
 input[type=text].form-control:focus{outline: none; border-color: none; box-shadow: none;}
 button[type=submit] {border: none; width: 100%; height: 60px; background-color: #353535; color: white;}
 #beforeAddBtn[type=button] {border: none; width: 100%; height: 60px; background-color: #353535; color: white;}
+#recommend[type=button] {border: 2px solid #353535; width: 200px; height: 60px; background-color: white; color: #353535; font-weight: bold; font-size: 20px;}
+#recommend[type=button]:hover {border: none; width: 200px; height: 60px; background-color: #353535; color: white; font-weight: bold; font-size: 20px;}
 a {color: black;}
 a:hover {text-decoration: none; color: #980000;}
 /* font */
@@ -272,7 +284,7 @@ p img {}
     <div class="container">
 
         <div class="row">
-        	
+        		
 				<!-- form -->
 				<form method="post" id="formObj">
 					<input type="hidden" name="newsNo" value="${readNews.newsNo}" readonly="readonly" />
@@ -321,6 +333,10 @@ p img {}
 		    		<br>
 		    		<br>
 		    		<br>
+		    		
+		    		<div class="text-center">
+		    			<button type="button" id="recommend">추천</button>
+		    		</div>
 		    	</div>	
 	                
 	        </div>

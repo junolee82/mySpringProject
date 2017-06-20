@@ -91,4 +91,9 @@ public class MagazineBoardServiceImpl implements MagazineBoardService {
 		return dao.getAttach(mNo);
 	}
 
+	@Override
+	public void recommend(int mNo) throws Exception {
+		dao.updateRecommend(mNo);
+	}
+
 }

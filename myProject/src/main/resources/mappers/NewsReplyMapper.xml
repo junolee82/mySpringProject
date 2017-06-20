@@ -5,7 +5,7 @@
 <mapper namespace="com.juno.mappers.NewsReplyMapper">
 
 	<select id="listAll" resultType="NewsReplyVo">
-		select * from news_reply
+		select rNo, newsNo, replyText, replyer, regDate from news_reply
 		where newsNo = #{newsNo}
 		order by rNo desc
 	</select>

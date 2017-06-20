@@ -103,14 +103,15 @@ public class UploadController {
 		String CKEditorFuncNum = "";
 
 		if (upload != null) {
-			filename = UploadFileUtils.uploadFile(uploadPath, upload.getOriginalFilename(), upload.getBytes()); // upload.getOriginalFilename();
+			filename = UploadFileUtils.editorUploadFile(uploadPath, upload.getOriginalFilename(), upload.getBytes()); // upload.getOriginalFilename();
+			logger.info("fileName.................." + filename);
 
 			fileBean.setFilename(filename);
 			CKEditorFuncNum = fileBean.getCKEditorFuncNum();
 
 			try {
 				File file = new File(uploadPath + "\\" + filename);
-				logger.info(uploadPath + "\\" + filename);
+				logger.info("editor_upload : " + uploadPath + "\\" + filename);
 				upload.transferTo(file);
 			} catch (IOException e) {
 				e.printStackTrace();

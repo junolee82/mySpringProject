@@ -17,6 +17,8 @@ public interface MagazineBoardService {
 	public void modify(MagazineBoardVo vo) throws Exception;
 
 	public void remove(int mNo) throws Exception;
+	
+	public void recommend(int mNo) throws Exception;
 
 	public List<String> getAttach(int mNo) throws Exception;
 

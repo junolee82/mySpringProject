@@ -98,5 +98,12 @@ public class NewsBoardController {
 	public List<String> getAttach(@PathVariable("newsNo") int newsNo) throws Exception {
 		return service.getAttach(newsNo);
 	}
+	
+	// updateRecommend
+	@RequestMapping("updateRecommend/{newsNo}")
+	@ResponseBody
+	public void updateRecommend(@PathVariable("newsNo") int newsNo) throws Exception {
+		service.recommend(newsNo);
+	}
 
 }

@@ -6,7 +6,7 @@
 
 	<!-- Paging -->
 	<select id="listVideoReply" resultType="VideoReplyVo">
-		select * from video_reply
+		select rNo, vNo, replyText, replyer, regDate from video_reply
 		where vNo = #{vNo}
 		order by rNo desc
 		limit #{cri.pageStart}, #{cri.perPageNum}

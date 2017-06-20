@@ -121,16 +121,21 @@ p { font-size: 1em;}
 						<option value="tcw" <c:out value="${cri.searchType eq 'tcw'?'selected' : ''}" />> Title OR Content OR Writer </option>
 					</select>
 					
-					<input type="text" class="form-control" name="keyword" id="keywordInput" value="${cri.keyword }" />
+					<div class="input-group">
+						<input type="text" class="form-control" name="keyword" id="keywordInput" value="${cri.keyword }" placeholder="Search for..." />
+					
+						<span class="input-group-btn">
+						<button id="searchBtn" class="btn btn-primary">Search</button>
+						</span>
+					</div>
 					
 					</div>
-					<button id="searchBtn" class="btn btn-primary">Search</button>
 					
-					<c:if test="${login.uId == 'admin'}">
-					<button id="newBtn" class="btn btn-primary">New Board</button>
+					<c:if test="${not empty login }">
+					<button id="newBtn" class="btn btn-primary">글쓰기</button>
 					</c:if>
 					
-				</div>            
+				</div>
             
 				<!-- pagination -->
 				<div class="text-center">

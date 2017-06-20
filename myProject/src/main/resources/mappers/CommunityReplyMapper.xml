@@ -6,7 +6,7 @@
 
 	<!-- Paging -->
 	<select id="listCommunityReply" resultType="CommunityReplyVo">
-		select * from community_reply
+		select rNo, cNo, replyText, replyer, regDate from community_reply
 		where cNo = #{cNo}
 		order by rNo desc
 		limit #{cri.pageStart}, #{cri.perPageNum}

@@ -5,21 +5,21 @@
 <mapper namespace="com.juno.mappers.NewsBoardMapper">
 
 	<select id="listAll" resultType="NewsBoardVo">
-		select newsNo, nTitle, nContent, writer, regDate, viewCnt, replyCnt, recommend, thumbnailImg
+		select newsNo, nTitle, nContent, writer, regDate, viewCnt, replyCnt, recommend
 		from news_board 
 		where newsNo > 0 
 		order by newsNo desc, regDate desc;		
 	</select>
 	
 	<select id="read" resultType="NewsBoardVo">
-		select newsNo, nTitle, nContent, writer, regDate, viewCnt, replyCnt, recommend, thumbnailImg
+		select newsNo, nTitle, nContent, writer, regDate, viewCnt, replyCnt, recommend
 		from news_board 
 		where newsNo = #{newsNo};
 	</select>
 	
 	<insert id="create">
-		insert into news_board(nTitle, nContent, writer, thumbnailImg)
-		values(#{nTitle}, #{nContent}, #{writer}, #{thumbnailImg});
+		insert into news_board(nTitle, nContent, writer)
+		values(#{nTitle}, #{nContent}, #{writer});
 	</insert>
 	
 	<update id="update">
@@ -85,6 +85,10 @@
 	
 	<update id="updateViewCnt">
 		update news_board set viewCnt = viewCnt + 1 where newsNo = #{newsNo};
+	</update>
+	
+	<update id="updateRecommend">
+		update news_board set recommend = recommend + 1 where newsNo = #{newsNo}
 	</update>
 	
 	<!-- UPLOAD -->

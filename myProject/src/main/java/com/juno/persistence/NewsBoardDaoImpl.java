@@ -70,7 +70,7 @@ public class NewsBoardDaoImpl implements NewsBoardDao {
 	public void updateViewCnt(int newsNo) throws Exception {
 		session.update(namespace + ".updateViewCnt", newsNo);
 	}
-	
+
 	// Attach ---
 	@Override
 	public void addAttach(String fullName) throws Exception {
@@ -90,11 +90,16 @@ public class NewsBoardDaoImpl implements NewsBoardDao {
 	@Override
 	public void replaceAttach(String fullName, int newsNo) throws Exception {
 		Map<String, Object> paramMap = new HashMap<>();
-		
+
 		paramMap.put("newsNo", newsNo);
 		paramMap.put("fullName", fullName);
-		
+
 		session.insert(namespace + ".replaceAttach", paramMap);
+	}
+
+	@Override
+	public void updateRecommend(int newsNo) throws Exception {
+		session.update(namespace + ".updateRecommend", newsNo);
 	}
 
 }

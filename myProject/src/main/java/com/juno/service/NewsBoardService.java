@@ -19,7 +19,9 @@ public interface NewsBoardService {
 	public List<NewsBoardVo> listNewsCriteria(SearchCriteria cri) throws Exception;
 
 	public int listNewsCount(SearchCriteria cri) throws Exception;
-	
+
+	public void recommend(int newsNo) throws Exception;
+
 	// TitleImg
 	public List<String> getAttach(int newsNo) throws Exception;
 

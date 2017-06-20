@@ -37,7 +37,27 @@ public class UploadFileUtils {
 		}
 
 		return uploadedFileName;
+	}
+	
+	// editorUploads
+	public static String editorUploadFile(String uploadPath, String originalName, byte[] fileData) throws IOException {
+		UUID uuid = UUID.randomUUID();
+		String savedName = uuid.toString() + "_" + originalName;
+		String savedPath = calcPath(uploadPath);
 
+		File target = new File(uploadPath + savedPath, savedName);
+		FileCopyUtils.copy(fileData, target);
+		String formatName = originalName.substring(originalName.lastIndexOf(".") + 1);
+		
+		String uploadedFileName = null;
+		
+		if (MediaUtils.getMediaType(formatName) != null) {
+			uploadedFileName = makeEditorThumbnail(uploadPath, savedPath, savedName);
+		} else {
+			uploadedFileName = makeIcon(uploadPath, savedPath, savedName);
+		}
+
+		return uploadedFileName;
 	}
 
 	private static String makeIcon(String uploadPath, String savedPath, String savedName) {
@@ -59,6 +79,7 @@ public class UploadFileUtils {
 	}
 
 	private static void makeDir(String uploadPath, String... paths) {
+		
 		if (new File(paths[paths.length - 1]).exists()) {
 			return;
 		}
@@ -83,6 +104,11 @@ public class UploadFileUtils {
 		String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
 		ImageIO.write(destImg, formatName.toUpperCase(), newFile);
 
+		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
+	}
+	
+	private static String makeEditorThumbnail(String uploadPath, String path, String fileName) throws IOException {
+		String thumbnailName = uploadPath + path + File.separator + fileName;
 		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 
