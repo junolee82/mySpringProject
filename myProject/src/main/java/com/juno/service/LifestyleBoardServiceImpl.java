@@ -91,4 +91,9 @@ public class LifestyleBoardServiceImpl implements BoardService<LifestyleBoardVo>
 		return dao.getAttach(lNo);
 	}
 
+	@Override
+	public void recommend(int lNo) throws Exception {
+		dao.updateRecommend(lNo);
+	}
+
 }

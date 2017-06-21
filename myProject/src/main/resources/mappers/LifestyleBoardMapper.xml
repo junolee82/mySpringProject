@@ -74,6 +74,10 @@
 		update lifestyle_board set viewCnt = viewCnt + 1 where lNo = #{lNo};
 	</update>
 	
+	<update id="updateRecommend">
+		update lifestyle_board set recommend = recommend + 1 where lNo = #{lNo}
+	</update>	
+	
 	<!-- UPLOAD -->
 	<insert id="addAttach">
 		insert into lifestyle_attach(fullName, lNo) values(#{fullName}, LAST_INSERT_ID())

@@ -91,4 +91,9 @@ public class VideoBoardDaoImpl implements VideoBoardDao<VideoBoardVo> {
 		session.update(namespace + ".replaceAttach", paramMap);
 	}
 
+	@Override
+	public void updateRecommend(int vNo) throws Exception {
+		session.update(namespace + ".updateRecommend", vNo);
+	}
+
 }

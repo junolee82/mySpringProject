@@ -91,4 +91,9 @@ public class CommunityBoardDaoImpl implements CommunityBoardDao<CommunityBoardVo
 		session.update(namespace + ".replaceAttach", paramMap);
 	}
 
+	@Override
+	public void updateRecommend(int cNo) throws Exception {
+		session.update(namespace + ".updateRecommend", cNo);
+	}
+
 }

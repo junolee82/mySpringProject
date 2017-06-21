@@ -91,4 +91,9 @@ public class CommunityBoardServiceImpl implements CommunityBoardService<Communit
 		return dao.getAttach(cNo);
 	}
 
+	@Override
+	public void recommend(int cNo) throws Exception {
+		dao.updateRecommend(cNo);
+	}
+
 }

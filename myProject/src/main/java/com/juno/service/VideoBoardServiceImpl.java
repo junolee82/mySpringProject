@@ -91,4 +91,9 @@ public class VideoBoardServiceImpl implements VideoBoardService<VideoBoardVo> {
 		return dao.getAttach(vNo);
 	}
 
+	@Override
+	public void recommend(int vNo) throws Exception {
+		dao.updateRecommend(vNo);
+	}
+
 }

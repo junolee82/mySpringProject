@@ -54,6 +54,8 @@ a {color: black;}
 a:hover {text-decoration: none; color: #980000;}
 .contentBox{width:350px; height:26px; margin-bottom: 10px; margin-top: 30px; overflow:hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;}
 .content{font-size: 12px;}
+.example .pagination>li>a, .example .pagination>li>span {border: 1px solid #d9534f;}
+.pagination>li.active>a {border: 1px solid #d9534f; background: #d9534f; color: #fff;}
 /* font */
 p { font-size: 1em;}
 </style>
@@ -149,13 +151,13 @@ p { font-size: 1em;}
 						<input type="text" class="form-control" name="keyword" id="keywordInput" value="${cri.keyword }" placeholder="Search for..." />
 					
 						<span class="input-group-btn">
-						<button id="searchBtn" class="btn btn-primary">Search</button>
+						<button id="searchBtn" class="btn btn-danger">Search</button>
 						</span>
 					</div>
 					
 					</div>
 					
-					<c:if test="${not empty login }">
+					<c:if test="${login.uId == 'admin'}">
 					<button id="newBtn" class="btn btn-primary">글쓰기</button>
 					</c:if>
 					
@@ -185,11 +187,11 @@ p { font-size: 1em;}
     </div>
     <!-- /.container -->
 
-    <footer>
+    <footer style="margin-top: 54px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>&copy; 2017 HIPHOPDX All Right Reserved.</p>
                 </div>
             </div>
         </div>

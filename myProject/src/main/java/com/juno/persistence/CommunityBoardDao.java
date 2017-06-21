@@ -23,6 +23,9 @@ public interface CommunityBoardDao<E> {
 
 	// viewCnt
 	public void updateViewCnt(int cNo) throws Exception;
+	
+	// recommend
+	public void updateRecommend(int cNo) throws Exception;
 
 	// attach
 	public void addAttach(String fullName) throws Exception;

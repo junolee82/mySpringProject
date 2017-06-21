@@ -151,6 +151,10 @@
 			var replyer = replyerObj.val();
 			var replyText = replyTextObj.val();
 			
+			if(replyText == "") {
+				return;
+			}
+			
 			$.ajax({
 				type : "post",
 				url : "/replies",
@@ -312,7 +316,7 @@ p img {}
         				<strong> BY ${readNews.writer }</strong>
         				<div style="float: right;">
         					<span>조회수  ${readNews.viewCnt }</span> 
-        					<span>추천수 ${readNews.recommend }</span>
+        					<span>좋아요 ${readNews.recommend }</span>
         					<span>댓글 <span id="newsDelReplyCnt">${readNews.replyCnt }</span></span>
         				</div>
 
@@ -334,8 +338,8 @@ p img {}
 		    		<br>
 		    		<br>
 		    		
-		    		<div class="text-center">
-		    			<button type="button" id="recommend">추천</button>
+		    		<div class="text-center" style="padding-top: 40px;">
+		    			<button type="button" id="recommend"><span class="glyphicon glyphicon-heart" aria-hidden="true"> 좋아요!</span></button>
 		    		</div>
 		    	</div>	
 	                
@@ -403,11 +407,11 @@ p img {}
 	
 	
 	
-    <footer>
+    <footer style="margin-top: 54px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>&copy; 2017 HIPHOPDX All Right Reserved.</p>
                 </div>
             </div>
         </div>

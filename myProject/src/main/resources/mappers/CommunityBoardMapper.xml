@@ -74,6 +74,10 @@
 		update community_board set viewCnt = viewCnt + 1 where cNo = #{cNo};
 	</update>
 	
+	<update id="updateRecommend">
+		update community_board set recommend = recommend + 1 where cNo = #{cNo}
+	</update>
+	
 	<!-- UPLOAD -->
 	<insert id="addAttach">
 		insert into community_attach(fullName, cNo) values(#{fullName}, LAST_INSERT_ID())

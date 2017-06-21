@@ -105,6 +105,7 @@
 					console.log(fileInfo);
 					var html = template(fileInfo);
 					$(".uploadedTitleImg").append(html);
+					$(".fileDrop").remove();
 				}
 			});
 		});
@@ -139,7 +140,7 @@
 					if(result == "deleted") {
 						alert("deleted");
 						$(".thumbnail").remove();
-						//$(".formAjax").html("<div class='fileDrop'></div>");
+						$(".formAjax").html("<div class='fileDrop'><p>Title Image Drop Here</p></div>");
 					}
 				}
 			});
@@ -185,9 +186,9 @@ a:hover {text-decoration: none; color: #980000;}
             
 			   	<div class="col-md-12">
 
-			    	<div class="fileDrop">
+			    	<div class="fileDrop formAjax">
 			    	
-			    		<p>타이틀 이미지</p>
+			    		<p style="margin-top: 36px;">Title Image Drop Here</p>
 			    		
 			    	</div>
 			    		
@@ -219,7 +220,7 @@ a:hover {text-decoration: none; color: #980000;}
 					
 					<div class="col-md-12 text-center">
 				    											
-						<input type="submit" value="등록" class="text-center" />
+						<input type="submit" value="등록" class="text-center" style="margin-top: 40px;" />
 						
 		            </div>
 		            
@@ -232,11 +233,11 @@ a:hover {text-decoration: none; color: #980000;}
     </div>
     <!-- /.container -->
 
-    <footer>
+    <footer style="margin-top: 54px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>&copy; 2017 HIPHOPDX All Right Reserved.</p>
                 </div>
             </div>
         </div>

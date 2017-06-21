@@ -148,6 +148,10 @@
 			var replyer = replyerObj.val();
 			var replyText = replyTextObj.val();
 			
+			if(replyText == "") {
+				return;
+			}
+			
 			$.ajax({
 				type : "post",
 				url : "/vReplies",
@@ -232,6 +236,16 @@
 			});
 		});
 		
+		// 게시글 추천 버튼
+		$("#recommend").on("click", function(){
+			if(confirm("게시글을 추천하시겠습니까?")) {
+				$.getJSON("/videoBoard/updateRecommend/" + vNo, function(){});
+				alert("게시글을 추천하였습니다.");				
+			} else {
+				return;
+			}			
+		});
+		
 		
 		
 	}); //end ready
@@ -248,6 +262,8 @@ input[type=text] { border: none; box-shadow: none; padding: 15px 20px; margin: 1
 input[type=text].form-control:focus{outline: none; border-color: none; box-shadow: none;}
 button[type=submit] {border: none; width: 100%; height: 60px; background-color: #353535; color: white;}
 #beforeAddBtn[type=button] {border: none; width: 100%; height: 60px; background-color: #353535; color: white;}
+#recommend[type=button] {border: 2px solid #353535; width: 200px; height: 60px; background-color: white; color: #353535; font-weight: bold; font-size: 20px;}
+#recommend[type=button]:hover {border: none; width: 200px; height: 60px; background-color: #353535; color: white; font-weight: bold; font-size: 20px;}
 a {color: black;}
 a:hover {text-decoration: none; color: #980000;}
 /* font */
@@ -317,6 +333,10 @@ p img {}
 		    		<br>
 		    		<br>
 		    		<br>
+		    		
+		    		<div class="text-center" style="padding-top: 40px;">
+		    			<button type="button" id="recommend">추천</button>
+		    		</div>
 		    	</div>	
 	                
 	        </div>
@@ -383,11 +403,11 @@ p img {}
     
     	
 	
-    <footer>
+    <footer style="margin-top: 54px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>&copy; 2017 HIPHOPDX All Right Reserved.</p>
                 </div>
             </div>
         </div>

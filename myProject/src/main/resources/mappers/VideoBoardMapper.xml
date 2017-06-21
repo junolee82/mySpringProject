@@ -74,6 +74,10 @@
 		update video_board set viewCnt = viewCnt + 1 where vNo = #{vNo};
 	</update>
 	
+	<update id="updateRecommend">
+		update video_board set recommend = recommend + 1 where vNo = #{vNo}
+	</update>
+	
 	<!-- UPLOAD -->
 	<insert id="addAttach">
 		insert into video_attach(fullName, vNo) values(#{fullName}, LAST_INSERT_ID())

@@ -16,6 +16,8 @@ public interface BoardService<E> {
 	public void modify(E vo) throws Exception;
 
 	public void remove(int no) throws Exception;
+	
+	public void recommend(int no) throws Exception;
 
 	public List<String> getAttach(int no) throws Exception;
 

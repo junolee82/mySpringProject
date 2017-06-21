@@ -16,6 +16,8 @@ public interface CommunityBoardService<E> {
 	public void modify(E vo) throws Exception;
 
 	public void remove(int cNo) throws Exception;
+	
+	public void recommend(int cNo) throws Exception;
 
 	public List<String> getAttach(int cNo) throws Exception;
 

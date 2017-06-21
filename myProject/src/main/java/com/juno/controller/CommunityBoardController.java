@@ -97,5 +97,12 @@ public class CommunityBoardController {
 	public List<String> getAttach(@PathVariable("cNo") int cNo) throws Exception {
 		return service.getAttach(cNo);
 	}
+	
+	// updateRecommend
+	@RequestMapping("updateRecommend/{cNo}")
+	@ResponseBody
+	public void updateRecommend(@PathVariable("cNo") int cNo) throws Exception {
+		service.recommend(cNo);
+	}
 
 }

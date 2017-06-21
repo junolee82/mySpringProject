@@ -16,6 +16,8 @@ public interface VideoBoardService<E> {
 	public void modify(E vo) throws Exception;
 
 	public void remove(int vNo) throws Exception;
+	
+	public void recommend(int vNo) throws Exception;
 
 	public List<String> getAttach(int vNo) throws Exception;
 	

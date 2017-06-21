@@ -24,6 +24,9 @@ public interface VideoBoardDao<E> {
 	// viewCnt
 	public void updateViewCnt(int vNo) throws Exception;
 	
+	// recommend
+	public void updateRecommend(int vNo) throws Exception;
+	
 	// attach
 	public void addAttach(String fullName) throws Exception;
 	

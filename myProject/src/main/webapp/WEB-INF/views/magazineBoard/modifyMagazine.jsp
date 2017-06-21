@@ -317,11 +317,11 @@ p { font-size: 1em;}
     </div>
     <!-- /.container -->
 
-    <footer>
+    <footer style="margin-top: 54px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>&copy; 2017 HIPHOPDX All Right Reserved.</p>
                 </div>
             </div>
         </div>

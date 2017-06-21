@@ -90,4 +90,9 @@ public class LifestyleBoardDaoImpl implements BoardDao<LifestyleBoardVo> {
 		session.update(namespace + ".replaceAttach", paramMap);
 	}
 
+	@Override
+	public void updateRecommend(int lNo) throws Exception {
+		session.update(namespace + ".updateRecommend", lNo);
+	}
+
 }

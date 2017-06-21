@@ -207,7 +207,7 @@ a:hover {text-decoration: none; color: #980000;}
 						
 						<div class="input-group">
 	  						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-	  						<input type="text" class="form-control" placeholder="작성자" aria-describedby="basic-addon1" name="writer">
+	  						<input type="text" class="form-control" value="${login.uId }" aria-describedby="basic-addon1" name="writer" readonly="readonly">
 						</div>
 					</div>				
 					
@@ -219,7 +219,7 @@ a:hover {text-decoration: none; color: #980000;}
 					
 					<div class="col-md-12 text-center">
 				    											
-						<input type="submit" value="등록" class="text-center" />
+						<input type="submit" value="등록" class="text-center" style="margin-top: 40px;" />
 						
 		            </div>
 		            
@@ -232,11 +232,11 @@ a:hover {text-decoration: none; color: #980000;}
     </div>
     <!-- /.container -->
 
-    <footer>
+    <footer style="margin-top: 54px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>&copy; 2017 HIPHOPDX All Right Reserved.</p>
                 </div>
             </div>
         </div>

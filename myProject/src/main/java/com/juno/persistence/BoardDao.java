@@ -24,6 +24,9 @@ public interface BoardDao<E> {
 	// viewCnt
 	public void updateViewCnt(int no) throws Exception;
 	
+	// recommend
+	public void updateRecommend(int no) throws Exception;
+	
 	// attach
 	public void addAttach(String fullName) throws Exception;
 	

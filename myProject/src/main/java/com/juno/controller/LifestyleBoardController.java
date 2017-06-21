@@ -67,7 +67,7 @@ public class LifestyleBoardController {
 	public void modifyGET(int lNo, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 		model.addAttribute("readLifestyle", service.read(lNo));
 	}
-	
+
 	@RequestMapping(value = "modifyLifestyle", method = RequestMethod.POST)
 	public String modifyPOST(LifestyleBoardVo vo, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
 		logger.info(cri.toString());
@@ -79,7 +79,7 @@ public class LifestyleBoardController {
 		logger.info(rttr.toString());
 		return "redirect:/lifestyleBoard/lifestyle";
 	}
-	
+
 	// remove
 	@RequestMapping(value = "removeLifestyle", method = RequestMethod.POST)
 	public String removeLifestyle(int lNo, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
@@ -96,6 +96,13 @@ public class LifestyleBoardController {
 	@ResponseBody
 	public List<String> getAttach(@PathVariable("lNo") int lNo) throws Exception {
 		return service.getAttach(lNo);
+	}
+
+	// updateRecommend
+	@RequestMapping("updateRecommend/{lNo}")
+	@ResponseBody
+	public void updateRecommend(@PathVariable("lNo") int lNo) throws Exception {
+		service.recommend(lNo);
 	}
 
 }

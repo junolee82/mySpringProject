@@ -98,4 +98,11 @@ public class VideoBoardController {
 		return service.getAttach(vNo);
 	}
 
+	// updateRecommend
+	@RequestMapping("updateRecommend/{vNo}")
+	@ResponseBody
+	public void updateRecommend(@PathVariable("vNo") int vNo) throws Exception {
+		service.recommend(vNo);
+	}
+
 }
